@@ -20,7 +20,7 @@ export const onRegister = data => {
  */
 export const onUserLogin = data => {
   return require({
-    method: 'GET',
+    method: 'POST',
     url: 'index/User/Login',
     data
   })

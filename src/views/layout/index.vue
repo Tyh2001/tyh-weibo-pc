@@ -20,26 +20,44 @@
 
         <!-- 登录的弹出框 -->
         <el-popover
+          v-if="!userInfo"
           placement="top"
           width="160"
-          v-model="visible"
+          v-model="NotloggedinPopover"
           trigger="hover"
         >
-          <img slot="reference" src="./images/我的头像.jpg" alt="" />
-          <p>登录后可享受更多功能</p>
-          <hr />
-          <p>发布内容</p>
-          <p>关注他人</p>
-          <div>
-            <Tyh-button type="warning" @click="dialogVisible = true">
+          <!-- 用户头像昵称 -->
+          <div id="userInfo" slot="reference">
+            <img class="userPhoto" src="./images/未登录.jpg" alt="" />
+            <span class="nickname">这是昵称</span>
+          </div>
+          <p class="popover_title">登录后可享受更多功能</p>
+          <p class="popover_title_bottom">发布内容</p>
+          <p class="popover_title_bottom">关注他人</p>
+          <div class="change_log_reg">
+            <Tyh-button type="warning" @click="loginDialog = true">
               登录
             </Tyh-button>
             <Tyh-button
-              @click="(dialogVisible = true), (activeName = 'register')"
+              @click="(loginDialog = true), (activeName = 'register')"
             >
               注册
             </Tyh-button>
           </div>
+        </el-popover>
+
+        <el-popover
+          placement="top"
+          width="160"
+          v-model="NotloggedinPopover"
+          trigger="hover"
+          v-else
+        >
+          <div id="userInfo" slot="reference">
+            <img class="userPhoto" :src="userInfo.photo" alt="" />
+            <span class="nickname">{{ userInfo.nickname }}</span>
+          </div>
+          <Tyh-button type="danger" @click="ExitAccount">退出登录</Tyh-button>
         </el-popover>
       </Tyh-Menu>
     </div>
@@ -47,7 +65,7 @@
     <router-view />
 
     <!-- 登录的对话框 -->
-    <el-dialog :visible.sync="dialogVisible" width="520px" top="35vh">
+    <el-dialog :visible.sync="loginDialog" width="520px" top="35vh">
       <el-tabs v-model="activeName">
         <!-- 登录 -->
         <el-tab-pane label="登录" name="login">
@@ -105,7 +123,11 @@
               ></el-input>
             </el-form-item>
           </el-form>
-          <Tyh-button type="warning" round @click="onSubmitRegister"
+          <Tyh-button
+            type="warning"
+            round
+            :prohibit="registerBtnProhibit"
+            @click="onSubmitRegister"
             >立即注册</Tyh-button
           >
           <div class="changeLogin" @click="activeName = 'login'">
@@ -121,32 +143,35 @@
 <script>
 // 注册 登录
 import { onRegister, onUserLogin } from '@/api/user'
+import { mapState } from 'vuex'
 export default {
   name: 'layoutIndex',
   components: {},
   props: {},
   data () {
     return {
-      // 注册
+      registerBtnProhibit: false, // 注册按钮禁用状态
+      // 注册表单
       registerForm: {
-        username: '1',
-        password: '111',
-        password2: '111'
+        username: '',
+        password: '',
+        password2: ''
       },
-      // 登录
+      // 登录表单
       loginForm: {
         username: '',
         password: ''
       },
-      visible: false, // 导航栏上面鼠标移入的对话框
-      dialogVisible: true, // 登录对话框
-      activeName: 'register', // 选项卡
+      NotloggedinPopover: false, // 导航栏上面没有登录状态时鼠标移入昵称的对话框
+      OnloggedinPopover: false, // 导航栏上面已登录状态时鼠标移入昵称的对话框
+      loginDialog: false, // 登录注册对话框
+      activeName: 'login', // 选项卡
       // 注册表单验证
       registerRules: {
         // 用户名
         username: [
-          { required: true, message: '请输入活动名称', trigger: 'blur' }
-          // { min: 3, max: 5, message: '长度在 3 到 5 个字符', trigger: 'blur' }
+          { required: true, message: '请输入账号', trigger: 'blur' },
+          { min: 6, max: 12, message: '账号长度需在 6 到 12 个字符', trigger: 'blur' }
         ],
         // 第一遍密码
         password: [
@@ -186,16 +211,20 @@ export default {
       }
     }
   },
-  computed: {},
+  computed: {
+    ...mapState(['userInfo'])
+  },
   watch: {},
   created () { },
   mounted () { },
   methods: {
     // 注册
     onSubmitRegister () {
+      this.registerBtnProhibit = true // 禁用按钮
       this.$refs.registerForm.validate(async (valid) => {
+        // 表单验证不通过直接返回
         if (!valid) {
-          console.log('不能注册')
+          this.registerBtnProhibit = false // 禁用按钮
           return
         }
         const { data } = await onRegister(this.$qs.stringify(
@@ -204,16 +233,65 @@ export default {
             password: this.registerForm.password
           }
         ))
-        console.log(data)
+        this.registerBtnProhibit = false
+
+        // 根据后端返回数据判断用户登录
+        if (data.code !== 201) {
+          this.$message({
+            message: data.msg,
+            type: 'warning',
+            iconClass: 'tyh-ui-warning-01'
+          })
+          return
+        }
+        this.$message({
+          message: '注册成功',
+          type: 'danger',
+          iconClass: 'tyh-ui-success-01'
+        })
+        this.activeName = 'login' // 选项卡切换为登录页面
       })
     },
     // 登录
     async onSubmitLogin () {
-      const { data } = await onUserLogin({
-        username: this.loginForm.username,
-        password: this.loginForm.password
+      const { data } = await onUserLogin(this.$qs.stringify(
+        {
+          username: this.loginForm.username,
+          password: this.loginForm.password
+        }
+      ))
+      // 登录成功的操作
+      if (data.code === 201) {
+        this.$message({
+          message: '登录成功',
+          type: 'danger',
+          iconClass: 'tyh-ui-success-01'
+        })
+        this.$store.commit('changeUser', data)
+        this.loginDialog = false
+        return
+      }
+      this.$message({
+        message: '账号或密码错误',
+        type: 'warning',
+        iconClass: 'tyh-ui-warning-01'
       })
-      console.log(data)
+    },
+    // 退出账号
+    ExitAccount () {
+      this.$confirm('确定要退出账号吗？', '提示', {
+        confirmButtonText: '确定',
+        cancelButtonText: '取消',
+        type: 'warning'
+      }).then(() => {
+        // 直接交个 vuex 处理
+        this.$store.commit('outLogin')
+        this.$message({
+          message: '已成功退出账号',
+          type: 'primary',
+          iconClass: 'tyh-ui-primary-01'
+        })
+      }).catch(() => { })
     }
   }
 }
@@ -236,9 +314,29 @@ export default {
       display: flex;
       justify-content: space-between;
     }
+    // 右侧用户信息弹出框
+    .el-popover__reference-wrapper {
+      #userInfo {
+        margin-right: 30px;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        cursor: pointer;
+        .userPhoto {
+          width: 43px;
+          height: 43px;
+          border-radius: 50%;
+        }
+        .nickname {
+          color: #fff;
+          margin-left: 10px;
+          font-size: 15px;
+        }
+      }
+    }
     img {
-      width: 40px;
-      height: 40px;
+      width: 45px;
+      height: 45px;
     }
   }
 }
@@ -260,5 +358,25 @@ export default {
 }
 .el-input {
   border-bottom: 1px solid #dcdfe6;
+}
+// 登录弹出框
+.popover_title {
+  font-size: 14px;
+  color: #515a6e;
+  line-height: 30px;
+  border-bottom: 1px solid rgb(223, 223, 223);
+}
+.popover_title_bottom {
+  font-size: 13px;
+  color: #616161;
+  margin-top: 5px;
+}
+.change_log_reg {
+  display: flex;
+  justify-content: space-between;
+  margin-top: 8px;
+  .tyh-button {
+    height: 30px;
+  }
 }
 </style>
