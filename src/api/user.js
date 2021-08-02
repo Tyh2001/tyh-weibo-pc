@@ -2,7 +2,7 @@ import require from '@/utils/require'
 
 /**
  * 注册账号
- * @param { object } params 用户注册信息
+ * @param { object } data 用户注册信息
  * @returns
  */
 export const onRegister = data => {
