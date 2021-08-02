@@ -10,11 +10,11 @@
 
 #### 基本信息
 
-**Path：**index/User/Register
+**Path：** index/User/Register
 
-**Method：**POST
+**Method：** POST
 
-**线上地址：**http://localhost/Virgo_Tyh_PHP/public/index.php/index/User/Register
+**线上地址：** http://localhost/Virgo_Tyh_PHP/public/index.php/index/User/Register
 
 #### 返回HTTP状态码
 
@@ -44,11 +44,11 @@
 
 #### 基本信息
 
-**Path：**index/User/Login
+**Path：** index/User/Login
 
-**Method：**POST
+**Method：** POST
 
-**线上地址：**http://localhost/Virgo_Tyh_PHP/public/index.php/index/User/Login
+**线上地址：** http://localhost/Virgo_Tyh_PHP/public/index.php/index/User/Login
 
 #### 返回HTTP状态码
 
