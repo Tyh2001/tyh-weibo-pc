@@ -83,10 +83,10 @@ export default {
       registerBtnProhibit: false, // 注册按钮禁用状态
       // 注册表单
       registerForm: {
-        username: 'dasdadad',
-        password: '1111',
-        password2: '1111',
-        mail: '11111@qq.com', // 邮箱
+        username: '',
+        password: '',
+        password2: '',
+        mail: '', // 邮箱
         captcha: '' // 验证码
       },
       // 注册表单验证
@@ -110,7 +110,8 @@ export default {
               }
             },
             trigger: 'blur'
-          }
+          },
+          { min: 8, max: 20, message: '密码长度需在 8 到 20 个字符', trigger: 'blur' }
         ],
         // 第二遍密码
         password2: [
@@ -187,6 +188,7 @@ export default {
           type: 'danger',
           iconClass: 'tyh-ui-success-01'
         })
+        this.$router.push('/user/login')
       })
     },
     // 点击切换验证码图片
@@ -198,48 +200,58 @@ export default {
 </script>
 
 <style lang='less' scoped>
-#registerBox {
-  width: 520px;
-  height: 540px;
-  padding: 30px;
-  box-sizing: border-box;
+#registerIndex {
   position: fixed;
   top: 0;
   left: 0;
-  bottom: 0;
   right: 0;
-  margin: auto;
-  box-shadow: 0 12px 20px 0px rgba(0, 0, 0, 0.2);
-  border-radius: 7px;
-  .tyh-button {
-    width: 100%;
-    margin-top: 10px;
-  }
-  .title {
-    font-weight: 500;
-    color: #333333;
-    margin-bottom: 20px;
-  }
-  // 验证码文本框
-  #captcha_form_item {
-    display: flex;
-    height: 60px;
-    align-items: center;
-    justify-content: space-between;
-    .captcha_input {
-      width: 240px;
+  bottom: 0;
+  background: url("../login/images/login.jpg") no-repeat center;
+  background-size: cover;
+  #registerBox {
+    background: #fff;
+    width: 520px;
+    height: 540px;
+    padding: 30px;
+    box-sizing: border-box;
+    position: fixed;
+    top: 0;
+    left: 0;
+    bottom: 0;
+    right: 0;
+    margin: auto;
+    box-shadow: 0 12px 20px 0px rgba(0, 0, 0, 0.2);
+    border-radius: 7px;
+    .tyh-button {
+      width: 100%;
+      margin-top: 10px;
     }
-    .captcha_img {
-      width: 200px;
-      cursor: pointer;
+    .title {
+      font-weight: 500;
+      color: #333333;
+      margin-bottom: 20px;
     }
-  }
-  .changeLogin {
-    margin-top: 20px;
-    text-align: center;
-    a {
-      text-decoration: none;
-      color: #333;
+    // 验证码文本框
+    #captcha_form_item {
+      display: flex;
+      height: 60px;
+      align-items: center;
+      justify-content: space-between;
+      .captcha_input {
+        width: 240px;
+      }
+      .captcha_img {
+        width: 200px;
+        cursor: pointer;
+      }
+    }
+    .changeLogin {
+      margin-top: 20px;
+      text-align: center;
+      a {
+        text-decoration: none;
+        color: #333;
+      }
     }
   }
 }

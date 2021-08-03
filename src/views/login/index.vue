@@ -27,10 +27,16 @@
         @click="onSubmitLogin"
         >登录</Tyh-button
       >
-      <div class="changeLogin" @click="activeName = 'register'">
-        快速注册
-        <Tyh-icon icon="tyh-ui-right-02" />
-      </div>
+      <p class="changeRegister">
+        <router-link to="/user/register">
+          立即注册
+          <Tyh-icon icon="tyh-ui-right-02" />
+        </router-link>
+      </p>
+
+      <Tyh-button class="goHomeBtn" @click="$router.push('/')"
+        >返回首页</Tyh-button
+      >
     </div>
   </div>
 </template>
@@ -58,6 +64,20 @@ export default {
   methods: {
     // 登录
     async onSubmitLogin () {
+      // 减少发送请求 如果账号和密码格式不正确则不能发送请求直接返回
+      if (
+        this.loginForm.username === '' ||
+        this.loginForm.password === '' ||
+        this.loginForm.username.length < 6 ||
+        this.loginForm.password.length < 8
+      ) {
+        this.$message({
+          message: '请输入正确账号和密码',
+          type: 'warning',
+          iconClass: 'tyh-ui-warning-01'
+        })
+        return
+      }
       this.loginDialog = true
       const { data } = await onUserLogin(this.$qs.stringify(
         {
@@ -65,6 +85,7 @@ export default {
           password: this.loginForm.password
         }
       ))
+      console.log(data)
       // 登录成功的操作
       if (data.code === 201) {
         this.$message({
@@ -88,26 +109,47 @@ export default {
 </script>
 
 <style lang='less' scoped>
-#loginBox {
-  width: 520px;
-  height: 500px;
-  padding: 30px;
-  box-sizing: border-box;
+#loginIndex {
   position: fixed;
   top: 0;
   left: 0;
-  bottom: 0;
   right: 0;
-  margin: auto;
-  box-shadow: 0 12px 20px 0px rgba(0, 0, 0, 0.2);
-  border-radius: 7px;
-  .tyh-button {
-    width: 100%;
-  }
-  .title {
-    font-weight: 500;
-    color: #333333;
-    margin-bottom: 20px;
+  bottom: 0;
+  background: url("./images/login.jpg") no-repeat center;
+  background-size: cover;
+  #loginBox {
+    background: #fff;
+    width: 520px;
+    height: 400px;
+    padding: 30px;
+    box-sizing: border-box;
+    position: fixed;
+    top: 0;
+    left: 0;
+    bottom: 0;
+    right: 0;
+    margin: auto;
+    box-shadow: 0 12px 20px 0px rgba(0, 0, 0, 0.2);
+    border-radius: 7px;
+    .tyh-button {
+      width: 100%;
+    }
+    .title {
+      font-weight: 500;
+      color: #333333;
+      margin-bottom: 20px;
+    }
+    .changeRegister {
+      margin-top: 20px;
+      text-align: center;
+      a {
+        text-decoration: none;
+        color: #333;
+      }
+    }
+    .goHomeBtn {
+      margin-top: 45px;
+    }
   }
 }
 </style>
