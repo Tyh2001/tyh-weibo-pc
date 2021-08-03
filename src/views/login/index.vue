@@ -9,7 +9,7 @@
           <el-input
             v-model="loginForm.username"
             placeholder="请输入账号"
-          ></el-input>
+          />
         </el-form-item>
 
         <!-- 密码 -->
@@ -17,7 +17,8 @@
           <el-input
             v-model="loginForm.password"
             placeholder="请输入密码"
-          ></el-input>
+            show-password
+          />
         </el-form-item>
       </el-form>
       <Tyh-button

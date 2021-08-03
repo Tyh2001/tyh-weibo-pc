@@ -9,12 +9,12 @@
       <el-form :model="userForm" ref="userForm" label-width="70px">
         <!-- 昵称 -->
         <el-form-item label="昵称">
-          <el-input v-model="userForm.nickname" />
+          <el-input v-model="userForm.nickname" placeholder="编辑昵称" />
         </el-form-item>
 
         <!-- 个性签名 -->
         <el-form-item label="个性签名">
-          <el-input v-model="userForm.autograph" />
+          <el-input v-model="userForm.autograph" placeholder="选择个性签名" />
         </el-form-item>
 
         <!-- 性别 -->
@@ -40,7 +40,7 @@
 
         <!-- 职业 -->
         <el-form-item label="职业">
-          <el-select v-model="userForm.work" placeholder="工作">
+          <el-select v-model="userForm.work" placeholder="选择职业">
             <el-option
               v-for="(workItem, index) in workList"
               :key="index"
@@ -60,7 +60,7 @@
         </el-form-item>
 
         <!-- 邮箱 -->
-        <el-form-item label="邮箱">
+        <el-form-item label="邮箱" placeholder="选择邮箱">
           <el-input v-model="userForm.mail"></el-input>
         </el-form-item>
       </el-form>
@@ -73,17 +73,29 @@
       <el-form :model="changePass" ref="changePass" label-width="70px">
         <!-- 原始密码 -->
         <el-form-item label="原始密码">
-          <el-input v-model="userForm.oldPass" />
+          <el-input
+            v-model="userForm.oldPass"
+            placeholder="请输入原始密码"
+            show-password
+          />
         </el-form-item>
 
         <!-- 新密码 -->
         <el-form-item label="新密码">
-          <el-input v-model="userForm.newPass1" />
+          <el-input
+            v-model="userForm.newPass1"
+            placeholder="请输入新密码"
+            show-password
+          />
         </el-form-item>
 
         <!-- 确认密码 -->
         <el-form-item label="确认密码">
-          <el-input v-model="userForm.newPass2" />
+          <el-input
+            v-model="userForm.newPass2"
+            placeholder="确认新密码"
+            show-password
+          />
         </el-form-item>
       </el-form>
 
@@ -155,6 +167,7 @@ export default {
           type: 'primary',
           iconClass: 'tyh-ui-primary-01'
         })
+        this.$router.push('/')
       }).catch(() => { })
     }
   }
