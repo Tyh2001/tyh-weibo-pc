@@ -95,6 +95,7 @@ export default {
         })
         this.$store.commit('changeUser', data)
         this.loginDialog = false
+        this.$router.push('/')
         return
       }
       this.loginDialog = false

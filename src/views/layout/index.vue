@@ -17,8 +17,14 @@
               设置
             </Tyh-Menu-Item>
           </div>
-          <div class="userInfo">
+
+          <div class="userInfo" v-if="!userInfo">
             <router-link class="onLogin" to="/user/login">登录</router-link>
+          </div>
+
+          <div class="userInfo" v-else>
+            <img class="userInfo_photo" :src="userInfo.photo" alt="" />
+            <span class="userInfo_nickname">{{ userInfo.nickname }}</span>
           </div>
         </div>
       </Tyh-Menu>
@@ -29,7 +35,6 @@
 </template>
 
 <script>
-// 注册 登录
 import { mapState } from 'vuex'
 export default {
   name: 'layoutIndex',
@@ -44,24 +49,7 @@ export default {
   watch: {},
   created () { },
   mounted () { },
-  methods: {
-    // 退出账号
-    // ExitAccount () {
-    //   this.$confirm('确定要退出账号吗？', '提示', {
-    //     confirmButtonText: '确定',
-    //     cancelButtonText: '取消',
-    //     type: 'warning'
-    //   }).then(() => {
-    //     // 直接交个 vuex 处理
-    //     this.$store.commit('outLogin')
-    //     this.$message({
-    //       message: '已成功退出账号',
-    //       type: 'primary',
-    //       iconClass: 'tyh-ui-primary-01'
-    //     })
-    //   }).catch(() => { })
-    // }
-  }
+  methods: {}
 }
 </script>
 
@@ -86,6 +74,19 @@ export default {
       padding: 0 20px;
       box-sizing: border-box;
       .userInfo {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        cursor: pointer;
+        .userInfo_photo {
+          width: 45px;
+          height: 45px;
+          border-radius: 50%;
+          margin-right: 7px;
+        }
+        .userInfo_nickname {
+          color: #fff;
+        }
         .onLogin {
           color: #fff;
           cursor: pointer;

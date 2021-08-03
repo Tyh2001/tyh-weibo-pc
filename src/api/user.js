@@ -25,3 +25,18 @@ export const onUserLogin = data => {
     data
   })
 }
+
+/**
+ * 获取用户个人资料
+ * @param { number } userID 用户的 id
+ * @returns 用户个人资料
+ */
+export const getUserInfo = userID => {
+  return require({
+    method: 'GET',
+    url: 'index/User/getUserInfo',
+    params: {
+      id: userID
+    }
+  })
+}
