@@ -8,15 +8,29 @@ const routes = [
     path: '/',
     component: () => import('@/views/layout'),
     children: [
+      // 首页
       {
         path: '',
         name: 'home',
         component: () => import('@/views/home')
       },
+      // 设置
       {
         path: '/setting',
         name: 'setting',
         component: () => import('@/views/setting')
+      },
+      // 登录
+      {
+        path: '/user/login',
+        name: 'login',
+        component: () => import('@/views/login')
+      },
+      // 注册
+      {
+        path: '/user/register',
+        name: 'register',
+        component: () => import('@/views/register')
       }
     ]
   }
