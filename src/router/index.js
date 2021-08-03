@@ -52,15 +52,14 @@ VueRouter.prototype.push = function push (location) {
   return originalPush.call(this, location).catch(err => err)
 }
 
-const user = store.state.userInfo
 router.beforeEach((to, from, next) => {
+  const user = store.state.userInfo
   // 如果需要登录的路由
   if (to.meta.requiresAuth) {
     // 判断用户信息是否存在
     if (user) {
       // 存在就直接通过
-      next()
-      return
+      return next()
     }
     // 否则消息提示 并跳转登录页面
     TyhMessage({

@@ -1,4 +1,5 @@
 ## 微博全栈开发
+## 用户
 
 ### 接口地址
 
@@ -77,3 +78,45 @@
 | id       | number | 非必须   |        | 用户id   |
 | nickname | string | 非必须   |        | 用户昵称 |
 | photo    | string | 非必须   |        | 用户头像 |
+
+
+
+### 获取用户资料
+
+#### 基本信息
+
+**Path：** index/User/getUserInfo
+
+**Method：** GET
+
+**线上地址：** http://localhost/Virgo_Tyh_PHP/public/index.php/index/User/getUserInfo
+
+#### 返回HTTP状态码
+
+1. 201 OK
+2. 401 缺少参数
+
+#### 请求参数
+
+**Body**
+
+| 名称 | 类型   | 是否必须 | 默认值 | 备注    |
+| ---- | ------ | -------- | ------ | ------- |
+| id   | number | 必须     |        | 用户 id |
+
+#### 返回数据
+
+| 名称      | 类型   | 是否必须 | 默认值 | 备注     |
+| --------- | ------ | -------- | ------ | -------- |
+| code      | number | 必须     |        | 状态码   |
+| msg       | string | 必须     |        | 提示信息 |
+| avatar    | number | 非必须   |        | 用户id   |
+| nickname  | string | 非必须   |        | 用户昵称 |
+| autograph | string | 非必须   |        | 个性签名 |
+| gender    | string | 非必须   |        | 性别     |
+| feeling   | string | 非必须   |        | 感情状况 |
+| work      | string | 非必须   |        | 职业     |
+| city      | string | 非必须   |        | 城市     |
+| birthday  | string | 非必须   |        | 生日     |
+| mail      | string | 非必须   |        | 邮箱     |
+

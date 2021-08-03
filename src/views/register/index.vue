@@ -6,7 +6,11 @@
       <el-form :model="registerForm" :rules="registerRules" ref="registerForm">
         <!-- 用户名 -->
         <el-form-item prop="username">
-          <el-input v-model="registerForm.username" placeholder="请输入账号" />
+          <el-input
+            v-model="registerForm.username"
+            clearable
+            placeholder="请输入账号"
+          />
         </el-form-item>
 
         <!-- 第一遍密码 -->
@@ -29,7 +33,11 @@
 
         <!-- 邮箱 -->
         <el-form-item prop="mail">
-          <el-input v-model="registerForm.mail" placeholder="请输入邮箱" />
+          <el-input
+            v-model="registerForm.mail"
+            clearable
+            placeholder="请输入邮箱"
+          />
         </el-form-item>
 
         <!-- 验证码 -->
@@ -38,6 +46,7 @@
             <el-input
               class="captcha_input"
               v-model="registerForm.captcha"
+              clearable
               placeholder="请输入验证码"
             />
             <img

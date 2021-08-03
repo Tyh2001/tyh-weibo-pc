@@ -3,11 +3,12 @@
     <div id="loginBox">
       <h1 class="title">用户登录</h1>
 
-      <el-form :model="loginForm">
+      <el-form :model="loginForm" @keyup.enter.native="onSubmitLogin()">
         <!-- 账号 -->
         <el-form-item>
           <el-input
             v-model="loginForm.username"
+            clearable
             placeholder="请输入账号"
           />
         </el-form-item>
@@ -86,7 +87,6 @@ export default {
           password: this.loginForm.password
         }
       ))
-      console.log(data)
       // 登录成功的操作
       if (data.code === 201) {
         this.$message({

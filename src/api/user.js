@@ -40,3 +40,29 @@ export const getUserInfo = userID => {
     }
   })
 }
+
+/**
+ * 更改用户资料
+ * @param { object } data 用户资料
+ * @returns
+ */
+export const changeUserInfo = data => {
+  return require({
+    method: 'POST',
+    url: 'index/User/changeUserInfo',
+    data
+  })
+}
+
+/**
+ * 更改用户资料
+ * @param { object } data 用户资料
+ * @returns
+ */
+export const changeUserPass = data => {
+  return require({
+    method: 'POST',
+    url: 'index/User/changeUserPass',
+    data
+  })
+}

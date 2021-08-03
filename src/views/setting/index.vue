@@ -9,12 +9,20 @@
       <el-form :model="userForm" ref="userForm" label-width="70px">
         <!-- 昵称 -->
         <el-form-item label="昵称">
-          <el-input v-model="userForm.nickname" placeholder="编辑昵称" />
+          <el-input
+            v-model="userForm.nickname"
+            clearable
+            placeholder="编辑昵称"
+          />
         </el-form-item>
 
         <!-- 个性签名 -->
         <el-form-item label="个性签名">
-          <el-input v-model="userForm.autograph" placeholder="选择个性签名" />
+          <el-input
+            v-model="userForm.autograph"
+            clearable
+            placeholder="选择个性签名"
+          />
         </el-form-item>
 
         <!-- 性别 -->
@@ -60,8 +68,8 @@
         </el-form-item>
 
         <!-- 邮箱 -->
-        <el-form-item label="邮箱" placeholder="选择邮箱">
-          <el-input v-model="userForm.mail"></el-input>
+        <el-form-item label="邮箱">
+          <el-input v-model="userForm.mail" clearable placeholder="选择邮箱" />
         </el-form-item>
       </el-form>
 
@@ -120,7 +128,6 @@ export default {
   props: {},
   data () {
     return {
-      user: {},
       feelingList: ['单身', '已婚', '订婚', '暧昧中', '求交往', '暗恋中', '分居', '离异', '保密'], // 感觉状况
       workList: ['计算机/互联网/通信', '生产/工艺/制造', '金融/银行/投资/保险', '商业/服务业/个体经营', '文化/广告/传媒', '娱乐/艺术/表演', '律师/法务', '教育/培训', '公务员/行政/事业单位', '演员/歌手', '模特', '空姐', '学生', '自由职业', '其他'], // 工作列表
       userForm: {
@@ -128,7 +135,9 @@ export default {
         autograph: '', // 个性签名
         gender: '', // 性别
         feeling: '', // 感情状况
-        work: '' // 工作
+        work: '', // 职业
+        birthday: '', // 生日
+        mail: '' // 邮箱
       },
       // 修改密码
       changePass: {
@@ -150,7 +159,6 @@ export default {
     // 获取用户信息
     async loadgetUserInfo () {
       const { data } = await getUserInfo(this.userInfo.id)
-      console.log(data)
       this.userForm = data
     },
     // 退出登录
@@ -204,6 +212,7 @@ export default {
     .tyh-button {
       width: 540px;
       margin-left: 70px;
+      margin-bottom: 16px;
     }
   }
   .tyh-card:nth-child(1) {
