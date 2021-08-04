@@ -55,8 +55,8 @@ export const changeUserInfo = data => {
 }
 
 /**
- * 更改用户资料
- * @param { object } data 用户资料
+ * 更改用户密码
+ * @param { object } data 用户密码
  * @returns
  */
 export const changeUserPass = data => {

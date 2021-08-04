@@ -186,6 +186,10 @@ export default {
             type: 'warning',
             iconClass: 'tyh-ui-warning-01'
           })
+          // 如果验证码错误则重新加载一个新的验证码图片
+          if (data.msg === '验证码错误') {
+            this.captchaCode = randomNum(15, 1)
+          }
           return
         }
         this.$message({
