@@ -185,7 +185,12 @@
       @closed="dialogClosed"
     >
       <div>
-        <img ref="cropper_img" :src="UploadfileImgUrl" alt="" />
+        <img
+          class="cropper_img"
+          ref="cropper_img"
+          :src="UploadfileImgUrl"
+          alt=""
+        />
       </div>
       <span slot="footer" class="dialog-footer">
         <el-button @click="CropperImgDialog = false">取 消</el-button>
@@ -465,6 +470,9 @@ export default {
   }
   .tyh-card:nth-child(3) {
     margin-top: 20px;
+  }
+  .cropper_img {
+    max-height: 450px;
   }
 }
 </style>
