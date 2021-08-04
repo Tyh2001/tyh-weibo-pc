@@ -347,9 +347,9 @@ export default {
           iconClass: 'tyh-ui-success-01',
           times: 2700
         })
+        this.changeUserPassBtnProhibit = false
         this.$store.commit('outLogin')
         this.$router.push('/')
-        this.changeUserPassBtnProhibit = false
       })
     }
   }

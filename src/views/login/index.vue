@@ -94,7 +94,7 @@ export default {
           type: 'danger',
           iconClass: 'tyh-ui-success-01'
         })
-        this.$store.commit('changeUser', data)
+        this.$store.commit('changeUser', data.data)
         this.loginDialog = false
         this.$router.push('/')
         return

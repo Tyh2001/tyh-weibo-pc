@@ -71,13 +71,14 @@
 
 #### 返回数据
 
-| 名称     | 类型   | 是否必须 | 默认值 | 备注     |
-| -------- | ------ | -------- | ------ | -------- |
-| code     | number | 必须     |        | 状态码   |
-| msg      | string | 必须     |        | 提示信息 |
-| id       | number | 非必须   |        | 用户id   |
-| nickname | string | 非必须   |        | 用户昵称 |
-| photo    | string | 非必须   |        | 用户头像 |
+| 名称        | 类型   | 是否必须 | 默认值 | 备注     |
+| ----------- | ------ | -------- | ------ | -------- |
+| code        | number | 必须     |        | 状态码   |
+| msg         | string | 必须     |        | 提示信息 |
+| data        | object | 非必须   |        | 返回数据 |
+| ├─ id       | number | 非必须   |        | 用户id   |
+| ├─ nickname | string | 非必须   |        | 用户昵称 |
+| ├─ photo    | string | 非必须   |        | 用户头像 |
 
 
 
@@ -106,17 +107,91 @@
 
 #### 返回数据
 
+| 名称         | 类型   | 是否必须 | 默认值 | 备注     |
+| ------------ | ------ | -------- | ------ | -------- |
+| code         | number | 必须     |        | 状态码   |
+| msg          | string | 必须     |        | 提示信息 |
+| data         | object | 非必须   |        | 返回数据 |
+| ├─ avatar    | number | 非必须   |        | 用户id   |
+| ├─ nickname  | string | 非必须   |        | 用户昵称 |
+| ├─ autograph | string | 非必须   |        | 个性签名 |
+| ├─ gender    | string | 非必须   |        | 性别     |
+| ├─ feeling   | string | 非必须   |        | 感情状况 |
+| ├─ work      | string | 非必须   |        | 职业     |
+| ├─ city      | string | 非必须   |        | 城市     |
+| ├─ birthday  | string | 非必须   |        | 生日     |
+| ├─ mail      | string | 非必须   |        | 邮箱     |
+
+
+
+### 更新用户资料
+
+#### 基本信息
+
+**Path：** index/User/changeUserInfo
+
+**Method：** POST
+
+**线上地址：** http://localhost/Virgo_Tyh_PHP/public/index.php/index/User/changeUserInfo
+
+#### 返回HTTP状态码
+
+1. 201 更新用户信息成功
+2. 401 信息不完善
+
+#### 请求参数
+
+**Body**
+
 | 名称      | 类型   | 是否必须 | 默认值 | 备注     |
 | --------- | ------ | -------- | ------ | -------- |
-| code      | number | 必须     |        | 状态码   |
-| msg       | string | 必须     |        | 提示信息 |
-| avatar    | number | 非必须   |        | 用户id   |
-| nickname  | string | 非必须   |        | 用户昵称 |
+| nickname  | string | 必须     |        | 昵称     |
 | autograph | string | 非必须   |        | 个性签名 |
 | gender    | string | 非必须   |        | 性别     |
 | feeling   | string | 非必须   |        | 感情状况 |
 | work      | string | 非必须   |        | 职业     |
-| city      | string | 非必须   |        | 城市     |
 | birthday  | string | 非必须   |        | 生日     |
-| mail      | string | 非必须   |        | 邮箱     |
+| mail      | string | 必须     |        | 邮箱     |
+| id        | string | 必须     |        | 用户 id  |
 
+#### 返回数据
+
+| 名称 | 类型   | 是否必须 | 默认值 | 备注     |
+| ---- | ------ | -------- | ------ | -------- |
+| code | number | 必须     |        | 状态码   |
+| msg  | string | 必须     |        | 提示信息 |
+
+
+
+### 更新用户密码
+
+#### 基本信息
+
+**Path：** index/User/changeUserPass
+
+**Method：** POST
+
+**线上地址：** http://localhost/Virgo_Tyh_PHP/public/index.php/index/User/changeUserPass
+
+#### 返回HTTP状态码
+
+1. 201 更新密码成功
+2. 401 原始密码错误
+3. 402 参数不完善
+
+#### 请求参数
+
+**Body**
+
+| 名称    | 类型   | 是否必须 | 默认值 | 备注     |
+| ------- | ------ | -------- | ------ | -------- |
+| oldPass | string | 必须     |        | 原始密码 |
+| newPass | string | 必须     |        | 新密码   |
+| id      | string | 必须     |        | 用户 id  |
+
+#### 返回数据
+
+| 名称 | 类型   | 是否必须 | 默认值 | 备注     |
+| ---- | ------ | -------- | ------ | -------- |
+| code | number | 必须     |        | 状态码   |
+| msg  | string | 必须     |        | 提示信息 |
