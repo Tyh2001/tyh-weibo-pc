@@ -11,7 +11,12 @@
           alt="用户头像"
           @click="upFilePhoto"
         />
-        <input ref="file_input" class="up_user_photo" type="file" />
+        <input
+          ref="file_input"
+          class="up_user_photo"
+          type="file"
+          @change="onChangeFileInp"
+        />
       </div>
 
       <el-form
@@ -170,22 +175,46 @@
         >退出登录</Tyh-button
       >
     </Tyh-card>
+
+    <!-- 执行头像裁切的对话框 -->
+    <el-dialog
+      title="提示"
+      :visible.sync="CropperImgDialog"
+      width="600px"
+      @opened="dialogOpened"
+      @closed="dialogClosed"
+    >
+      <div>
+        <img ref="cropper_img" :src="UploadfileImgUrl" alt="" />
+      </div>
+      <span slot="footer" class="dialog-footer">
+        <el-button @click="CropperImgDialog = false">取 消</el-button>
+        <el-button type="primary" @click="CropperImgDialog = false"
+          >确 定</el-button
+        >
+      </span>
+    </el-dialog>
   </div>
 </template>
 
 <script>
 import { getUserInfo, changeUserInfo, changeUserPass } from '@/api/user'
 import { mapState } from 'vuex'
+import 'cropperjs/dist/cropper.css'
+import Cropper from 'cropperjs'
 export default {
   name: 'settingIndex',
   components: {},
   props: {},
   data () {
     return {
+      cropper: null, // 头像裁切器实例
+      UploadfileImgUrl: '', // 头像裁切器中图片地址
+      CropperImgDialog: false, // 执行头像裁切的对话框
       changeUserInfoBloon: false, // 展示用户信息和编辑信息的切换状态
       changeUserInfoBtnProhibit: false, // 更新用户信息的按钮禁用状态
       changeUserPassBtnProhibit: false, // 更改密码的按钮禁用状态
-      feelingList: ['单身', '已婚', '订婚', '暧昧中', '求交往', '暗恋中', '分居', '离异', '保密'], // 感觉状况
+      feelingList: ['单身', '已婚', '订婚', '暧昧中', '求交往', '暗恋中', '分居', '离异', '保密'], // 感情状况
       workList: ['计算机/互联网/通信', '生产/工艺/制造', '金融/银行/投资/保险', '商业/服务业/个体经营', '文化/广告/传媒', '娱乐/艺术/表演', '律师/法务', '教育/培训', '公务员/行政/事业单位', '演员/歌手', '自由职业', '模特', '空姐', '学生', '其他'], // 工作列表
       userForm: {
         nickname: '', // 昵称
@@ -287,11 +316,6 @@ export default {
         this.$router.push('/')
       }).catch(() => { })
     },
-    // 点击头像上传文件
-    upFilePhoto () {
-      const fileInput = this.$refs.file_input
-      fileInput.click()
-    },
     // 保存用户资料
     SaveData () {
       this.changeUserInfoBtnProhibit = true
@@ -306,6 +330,15 @@ export default {
           newObj[key] = this.userForm[key]
         }
         const { data } = await changeUserInfo(this.$qs.stringify(newObj))
+        // 如果 code 不是 201 那么直接返回错误信息
+        if (data.code !== 201) {
+          this.$message({
+            message: data.msg,
+            type: 'warning',
+            iconClass: 'tyh-ui-warning-01'
+          })
+          return
+        }
         // 改变展示状态和按钮禁用状态
         this.changeUserInfoBloon = false
         this.changeUserInfoBtnProhibit = false
@@ -314,7 +347,6 @@ export default {
           type: 'danger',
           iconClass: 'tyh-ui-success-01'
         })
-        console.log(data)
       })
     },
     // 修改密码
@@ -325,6 +357,7 @@ export default {
           this.changeUserPassBtnProhibit = false
           return
         }
+        // 新建一个对象 里面包含 id、原始密码、新密码
         const newObj = {}
         newObj.id = this.userInfo.id
         newObj.oldPass = this.changePass.oldPass
@@ -351,6 +384,32 @@ export default {
         this.$store.commit('outLogin')
         this.$router.push('/')
       })
+    },
+    // 点击头像上传文件
+    upFilePhoto () {
+      const fileInput = this.$refs.file_input
+      fileInput.click()
+    },
+    // 当上传文件被改变时候 获取图片路径 展示裁切器对话框
+    onChangeFileInp () {
+      // 获取到上传图片的路径
+      this.UploadfileImgUrl = URL.createObjectURL(this.$refs.file_input.files[0])
+      this.CropperImgDialog = true // 展示对话框
+    },
+    // 当头像裁切器对话框完全展示时候的回调 获取对话框中的 img 标签 并初始化裁切器
+    dialogOpened () {
+      const image = this.$refs.cropper_img // 获取到对话框中的 img 标签
+      this.cropper = new Cropper(image, {
+        aspectRatio: 1 / 1, // 裁切框的比例
+        viewMode: 1, // 裁切框不能移出图片范围
+        dragMode: 'none' // 背景画布禁止移动
+      })
+    },
+    // 当头像裁切器对话框完全关闭的时候 销毁裁切器
+    dialogClosed () {
+      // 销毁裁切器
+      this.cropper.destroy()
+      this.$refs.file_input.value = ''
     }
   }
 }
@@ -370,6 +429,8 @@ export default {
       width: 100px;
       margin: auto;
       .user_photo {
+        display: block;
+        max-width: 100%;
         width: 100px;
         height: 100px;
         border-radius: 50%;
