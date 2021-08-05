@@ -66,3 +66,19 @@ export const changeUserPass = data => {
     data
   })
 }
+
+/**
+ * 上传用户头像
+ * @param { formData } data 头像
+ * @returns
+ */
+export const uploadUserPhoto = (data, userID) => {
+  return require({
+    method: 'POST',
+    url: 'index/User/uploadPhoto',
+    data,
+    params: {
+      id: userID
+    }
+  })
+}

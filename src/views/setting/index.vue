@@ -7,7 +7,7 @@
       <div class="user_photo_box">
         <img
           class="user_photo"
-          :src="userInfo.photo"
+          :src="userForm.avatar"
           alt="用户头像"
           @click="upFilePhoto"
         />
@@ -34,6 +34,12 @@
             placeholder="编辑昵称"
           />
           <p v-else class="form_item_text">{{ userForm.nickname }}</p>
+          <el-skeleton
+            variant="p"
+            :rows="1"
+            animated
+            :loading="keletonLoading"
+          />
         </el-form-item>
 
         <!-- 个性签名 -->
@@ -45,6 +51,12 @@
             placeholder="选择个性签名"
           />
           <p v-else class="form_item_text">{{ userForm.autograph }}</p>
+          <el-skeleton
+            variant="p"
+            :rows="1"
+            animated
+            :loading="keletonLoading"
+          />
         </el-form-item>
 
         <!-- 性别 -->
@@ -59,6 +71,12 @@
             <el-option value="保密" />
           </el-select>
           <p v-else class="form_item_text">{{ userForm.gender }}</p>
+          <el-skeleton
+            variant="p"
+            :rows="1"
+            animated
+            :loading="keletonLoading"
+          />
         </el-form-item>
 
         <!-- 感情状况 -->
@@ -75,6 +93,12 @@
             />
           </el-select>
           <p v-else class="form_item_text">{{ userForm.feeling }}</p>
+          <el-skeleton
+            variant="p"
+            :rows="1"
+            animated
+            :loading="keletonLoading"
+          />
         </el-form-item>
 
         <!-- 职业 -->
@@ -91,6 +115,12 @@
             />
           </el-select>
           <p v-else class="form_item_text">{{ userForm.work }}</p>
+          <el-skeleton
+            variant="p"
+            :rows="1"
+            animated
+            :loading="keletonLoading"
+          />
         </el-form-item>
 
         <!-- 生日 -->
@@ -103,6 +133,12 @@
             format="yyyy 年 MM 月 dd 日"
           />
           <p v-else class="form_item_text">{{ userForm.birthday }}</p>
+          <el-skeleton
+            variant="p"
+            :rows="1"
+            animated
+            :loading="keletonLoading"
+          />
         </el-form-item>
 
         <!-- 邮箱 -->
@@ -114,6 +150,12 @@
             placeholder="选择邮箱"
           />
           <p v-else class="form_item_text">{{ userForm.mail }}</p>
+          <el-skeleton
+            variant="p"
+            :rows="1"
+            animated
+            :loading="keletonLoading"
+          />
         </el-form-item>
       </el-form>
 
@@ -194,25 +236,25 @@
       </div>
       <span slot="footer" class="dialog-footer">
         <el-button @click="CropperImgDialog = false">取 消</el-button>
-        <el-button type="primary" @click="CropperImgDialog = false"
-          >确 定</el-button
-        >
+        <el-button type="primary" @click="ToUploadPhoto">确 定</el-button>
       </span>
     </el-dialog>
   </div>
 </template>
 
 <script>
-import { getUserInfo, changeUserInfo, changeUserPass } from '@/api/user'
+import { getUserInfo, changeUserInfo, changeUserPass, uploadUserPhoto } from '@/api/user'
 import { mapState } from 'vuex'
 import 'cropperjs/dist/cropper.css'
 import Cropper from 'cropperjs'
+import Bus from '@/utils/bus'
 export default {
   name: 'settingIndex',
   components: {},
   props: {},
   data () {
     return {
+      keletonLoading: true, // 加载骨架的 loading
       cropper: null, // 头像裁切器实例
       UploadfileImgUrl: '', // 头像裁切器中图片地址
       CropperImgDialog: false, // 执行头像裁切的对话框
@@ -222,13 +264,13 @@ export default {
       feelingList: ['单身', '已婚', '订婚', '暧昧中', '求交往', '暗恋中', '分居', '离异', '保密'], // 感情状况
       workList: ['计算机/互联网/通信', '生产/工艺/制造', '金融/银行/投资/保险', '商业/服务业/个体经营', '文化/广告/传媒', '娱乐/艺术/表演', '律师/法务', '教育/培训', '公务员/行政/事业单位', '演员/歌手', '自由职业', '模特', '空姐', '学生', '其他'], // 工作列表
       userForm: {
-        nickname: '', // 昵称
-        autograph: '', // 个性签名
-        gender: '', // 性别
-        feeling: '', // 感情状况
-        work: '', // 职业
-        birthday: '', // 生日
-        mail: '' // 邮箱
+        // nickname: '', // 昵称
+        // autograph: '', // 个性签名
+        // gender: '', // 性别
+        // feeling: '', // 感情状况
+        // work: '', // 职业
+        // birthday: '', // 生日
+        // mail: '' // 邮箱
       },
       // 修改密码
       changePass: {
@@ -303,6 +345,7 @@ export default {
     async loadgetUserInfo () {
       const { data } = await getUserInfo(this.userInfo.id)
       this.userForm = data.data
+      this.keletonLoading = false // 隐藏加载骨架
     },
     // 退出登录
     outLogin () {
@@ -335,6 +378,10 @@ export default {
           newObj[key] = this.userForm[key]
         }
         const { data } = await changeUserInfo(this.$qs.stringify(newObj))
+
+        // 提交给导航栏更新用户昵称
+        Bus.$emit('updataNickname', this.userForm)
+
         // 如果 code 不是 201 那么直接返回错误信息
         if (data.code !== 201) {
           this.$message({
@@ -399,6 +446,13 @@ export default {
     onChangeFileInp () {
       // 获取到上传图片的路径
       this.UploadfileImgUrl = URL.createObjectURL(this.$refs.file_input.files[0])
+
+      // 不裁切直接上传
+      // const formData = new FormData()
+      // formData.append('photo', this.$refs.file_input.files[0])
+      // uploadUserPhoto(formData).then(res => {
+      //   console.log(res)
+      // })
       this.CropperImgDialog = true // 展示对话框
     },
     // 当头像裁切器对话框完全展示时候的回调 获取对话框中的 img 标签 并初始化裁切器
@@ -415,6 +469,22 @@ export default {
       // 销毁裁切器
       this.cropper.destroy()
       this.$refs.file_input.value = ''
+    },
+    // 点击确定上传图片
+    ToUploadPhoto () {
+      // blob 为裁切的结果图片
+      this.cropper.getCroppedCanvas().toBlob((blob) => {
+        const formData = new FormData()
+
+        // 这里第三个参数为图片后缀名
+        formData.append('photo', blob, '.jpg')
+
+        uploadUserPhoto(formData, this.userInfo.id).then(res => {
+          this.userForm.avatar = res.data.data.url // 更新头像
+          this.CropperImgDialog = false // 关于对话框
+          Bus.$emit('updataPhoto', res.data.data.url) // 将新的头像地址传递给导航栏组件
+        })
+      })
     }
   }
 }

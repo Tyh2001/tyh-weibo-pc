@@ -23,8 +23,8 @@
           </div>
 
           <div class="userInfo" v-else>
-            <img class="userInfo_photo" :src="userInfo.photo" alt="" />
-            <span class="userInfo_nickname">{{ userInfo.nickname }}</span>
+            <img class="userInfo_photo" :src="user.avatar" alt="" />
+            <span class="userInfo_nickname">{{ user.nickname }}</span>
           </div>
         </div>
       </Tyh-Menu>
@@ -36,20 +36,41 @@
 
 <script>
 import { mapState } from 'vuex'
+import { getUserInfo } from '@/api/user'
+import Bus from '@/utils/bus'
 export default {
   name: 'layoutIndex',
   components: {},
   props: {},
   data () {
-    return {}
+    return {
+      user: {}
+    }
   },
   computed: {
     ...mapState(['userInfo'])
   },
   watch: {},
-  created () { },
+  created () {
+    // 获取用户资料
+    this.loadgetUserInfo()
+    // 更新昵称
+    Bus.$on('updataNickname', (data) => {
+      this.user.nickname = data.nickname
+    })
+    // 更新头像
+    Bus.$on('updataPhoto', (data) => {
+      this.user.avatar = data
+    })
+  },
   mounted () { },
-  methods: {}
+  methods: {
+    // 获取用户信息
+    async loadgetUserInfo () {
+      const { data } = await getUserInfo(this.userInfo.id)
+      this.user = data.data
+    }
+  }
 }
 </script>
 
