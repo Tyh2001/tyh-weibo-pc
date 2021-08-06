@@ -14,11 +14,11 @@
             />
 
             <!-- 需要上传的图片展示框 -->
-            <div class="upImageBox" v-if="fileList.length">
+            <div class="upImageBox" v-if="imagesList.length">
               <!-- 展示图片的盒子 -->
               <div
                 class="item_img_change_box"
-                v-for="(url, index) in fileList"
+                v-for="(url, index) in imagesList"
                 :key="index"
               >
                 <!-- 移除上传图片的按钮 -->
@@ -27,8 +27,12 @@
               </div>
               <!-- 上传文件的方框 -->
               <div class="item_img_add" @click="clickFileAddImg">
-                <Tyh-icon v-if="fileList.length < 9" icon="tyh-ui-add-01" />
-                <Tyh-icon v-else icon="tyh-ui-success-01" />
+                <Tyh-icon
+                  size="26"
+                  v-if="imagesList.length < 9"
+                  icon="tyh-ui-jihao-01"
+                />
+                <Tyh-icon size="26" v-else icon="tyh-ui-success-01" />
               </div>
             </div>
 
@@ -37,7 +41,8 @@
               <!-- 这里可以加入表情和图片插入按钮 -->
               <div>
                 <Tyh-icon
-                  icon="tyh-ui-wenjian-02"
+                  size="20"
+                  icon="tyh-ui-zhaopian-01"
                   @click="$refs.imgfile.click()"
                 />
                 <input
@@ -49,7 +54,9 @@
                   @change="upImageFileInputChange"
                 />
               </div>
-              <Tyh-button type="primary">发布</Tyh-button>
+              <Tyh-button type="warning" round @click="publishContent"
+                >发布</Tyh-button
+              >
             </div>
           </div>
           <BlogList />
@@ -91,6 +98,7 @@
 import BlogList from '@/components/BlogList'
 import { getUserInfo } from '@/api/user'
 import { mapState } from 'vuex'
+import { onReleaseBlog } from '@/api/blog'
 export default {
   name: 'homeIndex',
   components: {
@@ -99,7 +107,9 @@ export default {
   props: {},
   data () {
     return {
-      fileList: [], // 需要上传的图片
+      imagesList: [], // 需要展示的的图片
+      upLoadImages: [], // 需要上传的图片
+      upLoadImagesFormData: {}, // 上传图片的 formdata 对象
       user: {}, // 用户信息
       blogText: '' // 发布的文字内容
     }
@@ -125,17 +135,30 @@ export default {
     goLogonPage () {
       this.$router.push('/user/login')
     },
-    // 当上传文件的文本框被改变时
     upImageFileInputChange () {
+      // const file = e.target.files
+
+      // let imgFile = document.getElementById('image').files[0]
+      // const imgFile = this.$refs.imgfile.files[0]
+
+      // console.log(this.$refs.imgfile.files)F
+      // this.$refs.imgfile.files.forEach(item => {
+      //   const formData = new FormData()
+      //   console.log(item)
+      //   formData.append('upImage', item, item.name)
+      //   // this.upLoadImagesFormData.push(formData)
+      //   this.upLoadImagesFormData[item.name] = formData
+      // })
+
       // 获取到选择文件的长度（数量）
       const fileLength = this.$refs.imgfile.files.length
 
       // 如果需要上传的文件数量小于9才执行循环
-      if (this.fileList.length < 9) {
+      if (this.imagesList.length < 9) {
         for (let i = 0; i < fileLength; i++) {
           // 进入循环之后还需要判定如果数组长度不小于9则继续添加 否则跳出循环体
-          if (this.fileList.length < 9) {
-            this.fileList.push(URL.createObjectURL(this.$refs.imgfile.files[i]))
+          if (this.imagesList.length < 9) {
+            this.imagesList.push(URL.createObjectURL(this.$refs.imgfile.files[i]))
           } else {
             break
           }
@@ -156,7 +179,7 @@ export default {
       // 跟随在后面的添加按钮
       // 如果选择图片的场地小于9，则点击可以继续上传
       // 否则点击没有效果
-      return this.fileList.length < 9
+      return this.imagesList.length < 9
         ? this.$refs.imgfile.click()
         : this.$message({
           message: '最多只能上传9张图片',
@@ -166,7 +189,19 @@ export default {
     },
     // 点击移除照片
     removeImage (index) {
-      this.fileList.splice(index, 1)
+      this.imagesList.splice(index, 1)
+    },
+    // 点击发布内容
+    async publishContent () {
+      // const { data } = await onReleaseBlog(this.$qs.stringify(
+      //   {
+      //     blogText: this.blogText,
+      //     imgList: formData
+      //   }
+      // ), this.userInfo.id)
+      // const { data } = await onReleaseBlog(formData, this.userInfo.id)
+      const { data } = await onReleaseBlog(this.$qs.stringify(this.upLoadImagesFormData), this.userInfo.id)
+      console.log(data)
     }
   }
 }
@@ -238,9 +273,10 @@ export default {
               user-select: none;
               cursor: pointer;
               font-size: 30px;
-              line-height: 85px;
-              text-align: center;
               margin-top: 3px;
+              display: flex;
+              justify-content: center;
+              align-items: center;
             }
           }
           // 操作栏
@@ -252,7 +288,7 @@ export default {
             align-items: center;
             .tyh-button {
               width: 70px;
-              height: 25px;
+              height: 30px;
             }
             .tyh-icon {
               cursor: pointer;
