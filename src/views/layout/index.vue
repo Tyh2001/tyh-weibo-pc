@@ -53,7 +53,9 @@ export default {
   watch: {},
   created () {
     // 获取用户资料
-    this.loadgetUserInfo()
+    if (this.userInfo) {
+      this.loadgetUserInfo()
+    }
     // 更新昵称
     Bus.$on('updataNickname', (data) => {
       this.user.nickname = data.nickname

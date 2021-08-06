@@ -78,6 +78,7 @@ export const changeUserPass = (data, userID) => {
 /**
  * 上传用户头像
  * @param { formData } data 头像
+ * @param { file } userID 用户 id
  * @returns
  */
 export const uploadUserPhoto = (data, userID) => {

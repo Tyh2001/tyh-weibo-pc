@@ -23,12 +23,25 @@
         </div>
 
         <!-- 用户内容 -->
-        <div class="user_list">
+        <div v-if="userInfo" class="user_list">
           <div class="my_pohto">
-            <img src="./images/我的头像.jpg" alt="" />
+            <img :src="user.avatar" alt="用户头像" />
           </div>
-          <h4 class="nickname">这是昵称啊</h4>
-          <p class="autograph">这是我的个性签名，这是我的个性签名</p>
+          <h4 class="nickname">{{ user.nickname }}</h4>
+          <p class="autograph">{{ user.autograph }}</p>
+        </div>
+
+        <!-- 未登录 -->
+        <div v-else class="user_list">
+          <div class="my_pohto">
+            <img
+              src="./images/outLogin.jpg"
+              alt="未登录用户"
+              @click="goLogonPage"
+            />
+          </div>
+          <h4 class="nickname" @click="goLogonPage">未登录用户</h4>
+          <p class="autograph" @click="goLogonPage">点击登录</p>
         </div>
       </div>
     </div>
@@ -37,6 +50,8 @@
 
 <script>
 import BlogList from '@/components/BlogList'
+import { getUserInfo } from '@/api/user'
+import { mapState } from 'vuex'
 export default {
   name: 'homeIndex',
   components: {
@@ -44,13 +59,33 @@ export default {
   },
   props: {},
   data () {
-    return {}
+    return {
+      user: {}
+    }
   },
-  computed: {},
+  computed: {
+    ...mapState(['userInfo'])
+  },
   watch: {},
-  created () { },
+  created () {
+    // 获取用户信息
+    if (this.userInfo) {
+      this.loadgetUserInfo()
+    }
+  },
   mounted () { },
-  methods: {}
+  methods: {
+    // 获取用户信息
+    async loadgetUserInfo () {
+      const { data } = await getUserInfo(this.userInfo.id)
+      this.user = data.data
+      console.log(data)
+    },
+    // 去登录页面
+    goLogonPage () {
+      this.$router.push('/user/login')
+    }
+  }
 }
 </script>
 
@@ -109,6 +144,7 @@ export default {
           width: 90px;
           margin: auto;
           margin-top: -60px;
+          cursor: pointer;
           img {
             width: 90px;
             height: 90px;
@@ -120,12 +156,14 @@ export default {
           color: #333;
           font-size: 18px;
           text-align: center;
+          cursor: pointer;
         }
         .autograph {
           font-size: 14px;
           color: #161616;
           text-align: center;
           margin-top: 6px;
+          cursor: pointer;
         }
       }
     }
