@@ -44,26 +44,34 @@ export const getUserInfo = userID => {
 /**
  * 更改用户资料
  * @param { object } data 用户资料
+ * @param { string } userID 用户 id
  * @returns
  */
-export const changeUserInfo = data => {
+export const changeUserInfo = (data, userID) => {
   return require({
     method: 'POST',
     url: 'index/User/changeUserInfo',
-    data
+    data,
+    params: {
+      id: userID
+    }
   })
 }
 
 /**
  * 更改用户密码
  * @param { object } data 用户密码
+ * @param { string } userID 用户 id
  * @returns
  */
-export const changeUserPass = data => {
+export const changeUserPass = (data, userID) => {
   return require({
     method: 'POST',
     url: 'index/User/changeUserPass',
-    data
+    data,
+    params: {
+      id: userID
+    }
   })
 }
 

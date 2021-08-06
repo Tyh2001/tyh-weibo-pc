@@ -365,12 +365,7 @@ export default {
           this.changeUserInfoBtnProhibit = false
           return
         }
-        const newObj = {}
-        newObj.id = this.userInfo.id
-        for (const key in this.userForm) {
-          newObj[key] = this.userForm[key]
-        }
-        const { data } = await changeUserInfo(this.$qs.stringify(newObj))
+        const { data } = await changeUserInfo(this.$qs.stringify(this.userForm), this.userInfo.id)
 
         // 提交给导航栏更新用户昵称
         Bus.$emit('updataNickname', this.userForm)
@@ -402,12 +397,12 @@ export default {
           this.changeUserPassBtnProhibit = false
           return
         }
-        // 新建一个对象 里面包含 id、原始密码、新密码
-        const newObj = {}
-        newObj.id = this.userInfo.id
-        newObj.oldPass = this.changePass.oldPass
-        newObj.newPass = this.changePass.newPass2
-        const { data } = await changeUserPass(this.$qs.stringify(newObj))
+        const { data } = await changeUserPass(this.$qs.stringify(
+          {
+            oldPass: this.changePass.oldPass,
+            newPass: this.changePass.newPass2
+          }
+        ), this.userInfo.id)
         // 更新失败
         if (data.code !== 201) {
           this.$message({

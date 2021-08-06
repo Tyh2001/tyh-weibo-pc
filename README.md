@@ -76,9 +76,9 @@
 | code        | number | 必须     |        | 状态码   |
 | msg         | string | 必须     |        | 提示信息 |
 | data        | object | 非必须   |        | 返回数据 |
-| ├─ id       | number | 非必须   |        | 用户id   |
-| ├─ nickname | string | 非必须   |        | 用户昵称 |
-| ├─ photo    | string | 非必须   |        | 用户头像 |
+| ├─ id       | number | 必须     |        | 用户id   |
+| ├─ nickname | string | 必须     |        | 用户昵称 |
+| ├─ photo    | string | 必须     |        | 用户头像 |
 
 
 
@@ -112,15 +112,15 @@
 | code         | number | 必须     |        | 状态码   |
 | msg          | string | 必须     |        | 提示信息 |
 | data         | object | 非必须   |        | 返回数据 |
-| ├─ avatar    | number | 非必须   |        | 用户id   |
-| ├─ nickname  | string | 非必须   |        | 用户昵称 |
-| ├─ autograph | string | 非必须   |        | 个性签名 |
-| ├─ gender    | string | 非必须   |        | 性别     |
-| ├─ feeling   | string | 非必须   |        | 感情状况 |
-| ├─ work      | string | 非必须   |        | 职业     |
-| ├─ city      | string | 非必须   |        | 城市     |
-| ├─ birthday  | string | 非必须   |        | 生日     |
-| ├─ mail      | string | 非必须   |        | 邮箱     |
+| ├─ avatar    | number | 必须     |        | 用户id   |
+| ├─ nickname  | string | 必须     |        | 用户昵称 |
+| ├─ autograph | string | 必须     |        | 个性签名 |
+| ├─ gender    | string | 必须     |        | 性别     |
+| ├─ feeling   | string | 必须     |        | 感情状况 |
+| ├─ work      | string | 必须     |        | 职业     |
+| ├─ city      | string | 必须     |        | 城市     |
+| ├─ birthday  | string | 必须     |        | 生日     |
+| ├─ mail      | string | 必须     |        | 邮箱     |
 
 
 
@@ -146,13 +146,20 @@
 | 名称      | 类型   | 是否必须 | 默认值 | 备注     |
 | --------- | ------ | -------- | ------ | -------- |
 | nickname  | string | 必须     |        | 昵称     |
-| autograph | string | 非必须   |        | 个性签名 |
-| gender    | string | 非必须   |        | 性别     |
-| feeling   | string | 非必须   |        | 感情状况 |
-| work      | string | 非必须   |        | 职业     |
-| birthday  | string | 非必须   |        | 生日     |
+| autograph | string | 必须     |        | 个性签名 |
+| gender    | string | 必须     |        | 性别     |
+| feeling   | string | 必须     |        | 感情状况 |
+| work      | string | 必须     |        | 职业     |
+| birthday  | string | 必须     |        | 生日     |
 | mail      | string | 必须     |        | 邮箱     |
-| id        | string | 必须     |        | 用户 id  |
+
+**Query**
+
+| 名称 | 类型   | 是否必须 | 默认值 | 备注    |
+| ---- | ------ | -------- | ------ | ------- |
+| id   | string | 必须     |        | 用户 id |
+
+
 
 #### 返回数据
 
@@ -187,7 +194,12 @@
 | ------- | ------ | -------- | ------ | -------- |
 | oldPass | string | 必须     |        | 原始密码 |
 | newPass | string | 必须     |        | 新密码   |
-| id      | string | 必须     |        | 用户 id  |
+
+**Query**
+
+| 名称 | 类型   | 是否必须 | 默认值 | 备注    |
+| ---- | ------ | -------- | ------ | ------- |
+| id   | string | 必须     |        | 用户 id |
 
 #### 返回数据
 
@@ -195,3 +207,44 @@
 | ---- | ------ | -------- | ------ | -------- |
 | code | number | 必须     |        | 状态码   |
 | msg  | string | 必须     |        | 提示信息 |
+
+
+
+### 更新用户头像
+
+#### 基本信息
+
+**Path：** index/User/uploadPhoto
+
+**Method：** POST
+
+**线上地址：** http://localhost/Virgo_Tyh_PHP/public/index.php/index/User/uploadPhoto
+
+#### 返回HTTP状态码
+
+1. 201 更新头像成功
+2. 401 更新失败
+
+#### 请求参数
+
+**Body**
+
+| 名称  | 类型 | 是否必须 | 默认值 | 备注     |
+| ----- | ---- | -------- | ------ | -------- |
+| photo | file | 必须     |        | 头像图片 |
+
+**Query**
+
+| 名称 | 类型   | 是否必须 | 默认值 | 备注    |
+| ---- | ------ | -------- | ------ | ------- |
+| id   | string | 必须     |        | 用户 id |
+
+#### 返回数据
+
+| 名称   | 类型   | 是否必须 | 默认值 | 备注           |
+| ------ | ------ | -------- | ------ | -------------- |
+| code   | number | 必须     |        | 状态码         |
+| msg    | string | 必须     |        | 提示信息       |
+| data   | object | 非必须   |        | 返回数据       |
+| ├─ url | string | 必须     |        | 更新后头像地址 |
+
