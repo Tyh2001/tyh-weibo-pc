@@ -5,11 +5,50 @@
         <!-- 博客内内容 -->
         <div class="blog_list">
           <div class="release">
-            <textarea id="textarea"></textarea>
+            <el-input
+              type="textarea"
+              :rows="2"
+              placeholder="请输入内容"
+              v-model="blogText"
+              :autosize="{ minRows: 2, maxRows: 7 }"
+            />
+
+            <!-- 需要上传的图片展示框 -->
+            <div class="upImageBox" v-if="fileList.length">
+              <!-- 展示图片的盒子 -->
+              <div
+                class="item_img_change_box"
+                v-for="(url, index) in fileList"
+                :key="index"
+              >
+                <!-- 移除上传图片的按钮 -->
+                <Tyh-icon icon="tyh-ui-close-01" @click="removeImage(index)" />
+                <el-image :src="url" fit="cover" />
+              </div>
+              <!-- 上传文件的方框 -->
+              <div class="item_img_add" @click="clickFileAddImg">
+                <Tyh-icon v-if="fileList.length < 9" icon="tyh-ui-add-01" />
+                <Tyh-icon v-else icon="tyh-ui-success-01" />
+              </div>
+            </div>
+
             <!-- 操作栏 -->
             <div class="utils-box">
               <!-- 这里可以加入表情和图片插入按钮 -->
-              <div></div>
+              <div>
+                <Tyh-icon
+                  icon="tyh-ui-wenjian-02"
+                  @click="$refs.imgfile.click()"
+                />
+                <input
+                  ref="imgfile"
+                  style="display: none"
+                  type="file"
+                  accept="image/*"
+                  multiple="multiple"
+                  @change="upImageFileInputChange"
+                />
+              </div>
               <Tyh-button type="primary">发布</Tyh-button>
             </div>
           </div>
@@ -60,7 +99,9 @@ export default {
   props: {},
   data () {
     return {
-      user: {}
+      fileList: [], // 需要上传的图片
+      user: {}, // 用户信息
+      blogText: '' // 发布的文字内容
     }
   },
   computed: {
@@ -79,11 +120,53 @@ export default {
     async loadgetUserInfo () {
       const { data } = await getUserInfo(this.userInfo.id)
       this.user = data.data
-      console.log(data)
     },
     // 去登录页面
     goLogonPage () {
       this.$router.push('/user/login')
+    },
+    // 当上传文件的文本框被改变时
+    upImageFileInputChange () {
+      // 获取到选择文件的长度（数量）
+      const fileLength = this.$refs.imgfile.files.length
+
+      // 如果需要上传的文件数量小于9才执行循环
+      if (this.fileList.length < 9) {
+        for (let i = 0; i < fileLength; i++) {
+          // 进入循环之后还需要判定如果数组长度不小于9则继续添加 否则跳出循环体
+          if (this.fileList.length < 9) {
+            this.fileList.push(URL.createObjectURL(this.$refs.imgfile.files[i]))
+          } else {
+            break
+          }
+        }
+        // 清空文本框 防止上传相同内容不触发
+        this.$refs.imgfile.value = ''
+        return
+      }
+      // 长度到达上限之后提示框展示
+      this.$message({
+        message: '最多只能上传9张图片',
+        type: 'warning',
+        iconClass: 'tyh-ui-warning-01'
+      })
+    },
+    // 点击上传文件的方形框位置
+    clickFileAddImg () {
+      // 跟随在后面的添加按钮
+      // 如果选择图片的场地小于9，则点击可以继续上传
+      // 否则点击没有效果
+      return this.fileList.length < 9
+        ? this.$refs.imgfile.click()
+        : this.$message({
+          message: '最多只能上传9张图片',
+          type: 'warning',
+          iconClass: 'tyh-ui-warning-01'
+        })
+    },
+    // 点击移除照片
+    removeImage (index) {
+      this.fileList.splice(index, 1)
     }
   }
 }
@@ -106,30 +189,84 @@ export default {
       padding: 15px;
       display: flex;
       justify-content: space-between;
+      // 发布框
       .blog_list {
         width: 585px;
         .release {
           width: 100%;
-          min-height: 160px;
+          min-height: 140px;
           background: #fff;
           padding: 22px 45px;
           box-sizing: border-box;
           border-radius: 5px;
-          #textarea {
-            width: 100%;
-            height: 75px;
+          // 预览上传图片
+          .upImageBox {
+            margin-top: 5px;
+            display: flex;
+            align-items: center;
+            flex-wrap: wrap;
+            // 展示长传的每个图片的盒子
+            .item_img_change_box {
+              width: 95px;
+              height: 95px;
+              display: inline-block;
+              margin-right: 3px;
+              margin-top: 3px;
+              position: relative;
+              z-index: 20;
+              .el-image {
+                width: 100%;
+                height: 100%;
+                border-radius: 3px;
+              }
+              // 选中上传图片上的移除按钮
+              .tyh-icon {
+                position: absolute;
+                right: 5px;
+                top: 5px;
+                cursor: pointer;
+                z-index: 30;
+              }
+            }
+            // 跟随在后面的添加图标内容
+            .item_img_add {
+              width: 93px;
+              height: 93px;
+              border: 1px solid #333;
+              border-radius: 3px;
+              display: inline-block;
+              user-select: none;
+              cursor: pointer;
+              font-size: 30px;
+              line-height: 85px;
+              text-align: center;
+              margin-top: 3px;
+            }
           }
+          // 操作栏
           .utils-box {
             width: 100%;
             display: flex;
-            height: 25px;
-            margin-top: 10px;
+            margin-top: 5px;
             justify-content: space-between;
             align-items: center;
             .tyh-button {
               width: 70px;
               height: 25px;
             }
+            .tyh-icon {
+              cursor: pointer;
+            }
+          }
+          // 文本框
+          /deep/ .el-textarea__inner {
+            height: 50px;
+            font-family: "微软雅黑";
+            border-radius: 10px;
+            resize: none;
+            padding: 10px;
+            box-sizing: border-box;
+            font-size: 15px;
           }
         }
       }
