@@ -243,6 +243,7 @@
 </template>
 
 <script>
+// 获取用户信息 - 修改用户资料 - 修改密码 - 上传头像
 import { getUserInfo, changeUserInfo, changeUserPass, uploadUserPhoto } from '@/api/user'
 import { mapState } from 'vuex'
 import 'cropperjs/dist/cropper.css'
@@ -263,15 +264,7 @@ export default {
       changeUserPassBtnProhibit: false, // 更改密码的按钮禁用状态
       feelingList: ['单身', '已婚', '订婚', '暧昧中', '求交往', '暗恋中', '分居', '离异', '保密'], // 感情状况
       workList: ['计算机/互联网/通信', '生产/工艺/制造', '金融/银行/投资/保险', '商业/服务业/个体经营', '文化/广告/传媒', '娱乐/艺术/表演', '律师/法务', '教育/培训', '公务员/行政/事业单位', '演员/歌手', '自由职业', '模特', '空姐', '学生', '其他'], // 工作列表
-      userForm: {
-        // nickname: '', // 昵称
-        // autograph: '', // 个性签名
-        // gender: '', // 性别
-        // feeling: '', // 感情状况
-        // work: '', // 职业
-        // birthday: '', // 生日
-        // mail: '' // 邮箱
-      },
+      userForm: {}, // 个人信息
       // 修改密码
       changePass: {
         oldPass: '',
@@ -337,7 +330,7 @@ export default {
   },
   watch: {},
   created () {
-    this.loadgetUserInfo()
+    this.loadgetUserInfo() // 获取用户资料
   },
   mounted () { },
   methods: {
@@ -446,13 +439,6 @@ export default {
     onChangeFileInp () {
       // 获取到上传图片的路径
       this.UploadfileImgUrl = URL.createObjectURL(this.$refs.file_input.files[0])
-
-      // 不裁切直接上传
-      // const formData = new FormData()
-      // formData.append('photo', this.$refs.file_input.files[0])
-      // uploadUserPhoto(formData).then(res => {
-      //   console.log(res)
-      // })
       this.CropperImgDialog = true // 展示对话框
     },
     // 当头像裁切器对话框完全展示时候的回调 获取对话框中的 img 标签 并初始化裁切器
