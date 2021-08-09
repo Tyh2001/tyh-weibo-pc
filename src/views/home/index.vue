@@ -29,10 +29,12 @@
               <div class="item_img_add" @click="clickFileAddImg">
                 <Tyh-icon
                   size="26"
-                  v-if="imagesList.length < 9"
-                  icon="tyh-ui-jihao-01"
+                  :icon="
+                    imagesList.length < 9
+                      ? 'tyh-ui-jihao-01'
+                      : 'tyh-ui-success-01'
+                  "
                 />
-                <Tyh-icon size="26" v-else icon="tyh-ui-success-01" />
               </div>
             </div>
 
@@ -66,7 +68,6 @@
             :key="index"
             :blogItem="blogItem"
           />
-
         </div>
 
         <!-- 用户内容 -->

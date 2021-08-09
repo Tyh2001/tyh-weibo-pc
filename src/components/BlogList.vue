@@ -9,16 +9,6 @@
       <p class="blogText">{{ blogItem.text }}</p>
 
       <div class="blogImg">
-        <!-- <img class="blogImg-item" src="./images/测试1.png" alt="" />
-        <img class="blogImg-item" src="./images/测试1.png" alt="" />
-        <img class="blogImg-item" src="./images/测试1.png" alt="" />
-        <img class="blogImg-item" src="./images/测试1.png" alt="" />
-        <img class="blogImg-item" src="./images/测试1.png" alt="" />
-        <img class="blogImg-item" src="./images/测试1.png" alt="" />
-        <img class="blogImg-item" src="./images/测试1.png" alt="" />
-        <img class="blogImg-item" src="./images/测试1.png" alt="" />
-        <img class="blogImg-item" src="./images/测试1.png" alt="" /> -->
-
         <img
           class="blogImg-item"
           v-for="(blogItemImg, index) in blogItem.image"
@@ -104,12 +94,12 @@ export default {
     }
     .blogImg {
       display: flex;
-      justify-content: space-between;
       flex-wrap: wrap;
       .blogImg-item {
         width: 142px;
         height: 142px;
         margin-top: 10px;
+        margin-left: 5px;
       }
     }
     .fabulous {
@@ -124,6 +114,7 @@ export default {
         align-items: center;
         cursor: pointer;
         font-size: 14px;
+        user-select: none;
         .tyh-icon {
           margin-right: 5px;
         }
