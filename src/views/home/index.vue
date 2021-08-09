@@ -99,8 +99,7 @@
 import BlogList from '@/components/BlogList'
 import { getUserInfo } from '@/api/user'
 import { mapState } from 'vuex'
-// 上传发布博客的图片 - 上传发布博客的文字内容
-import { onReleaseBlogImg, onReleaseBlogText } from '@/api/blog'
+import { onReleaseBlog } from '@/api/blog'
 export default {
   name: 'homeIndex',
   components: {
@@ -198,31 +197,12 @@ export default {
         formData.append('blogImages[]', item, '.jpg')
       })
 
-      /**
-       * 上传发布的文字内容
-       *
-       * 这里需要传递两个参数 第一个参数是一个对象
-       * blogText：发布文字的内容
-       *
-       * 第二个参数是用户的 id
-       */
-      await onReleaseBlogText(this.$qs.stringify(
-        {
-          blogText: this.blogText // 发布博客的文字内容
-        }
-      ), this.userInfo.id)
+      const { data } = await onReleaseBlog(formData, {
+        userId: this.userInfo.id,
+        blogText: this.blogText
+      })
 
-      /**
-       * 上传发布博客的图片文件
-       * 图片文件直接是处理好的 formData
-       *
-       * 这里同样需要传递用户的 id
-       */
-      const imgData = await onReleaseBlogImg(formData, this.userInfo.id)
-
-      // console.log(textData)
-      // JSON.parse()
-      console.log(JSON.parse(imgData.data.img[0].image))
+      console.log(data)
     }
   }
 }
