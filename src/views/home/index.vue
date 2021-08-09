@@ -60,13 +60,13 @@
               >
             </div>
           </div>
-          <BlogList />
-          <BlogList />
-          <BlogList />
-          <BlogList />
-          <BlogList />
-          <BlogList />
-          <BlogList />
+
+          <BlogList
+            v-for="(blogItem, index) in blogList"
+            :key="index"
+            :blogItem="blogItem"
+          />
+
         </div>
 
         <!-- 用户内容 -->
@@ -99,7 +99,8 @@
 import BlogList from '@/components/BlogList'
 import { getUserInfo } from '@/api/user'
 import { mapState } from 'vuex'
-import { onReleaseBlog } from '@/api/blog'
+// 发布博客 - 获取所有博客
+import { onReleaseBlog, getAllBlogList } from '@/api/blog'
 export default {
   name: 'homeIndex',
   components: {
@@ -108,6 +109,7 @@ export default {
   props: {},
   data () {
     return {
+      blogList: [], // 博客内容
       imagesList: [], // 需要展示的的图片
       upLoadImagesFileArray: [], // 需要上传文件的数组
       user: {}, // 用户信息
@@ -123,6 +125,7 @@ export default {
     if (this.userInfo) {
       this.loadgetUserInfo()
     }
+    this.loadgetAllBlogList() // 获取所有博客内容
   },
   mounted () { },
   methods: {
@@ -186,7 +189,7 @@ export default {
       this.imagesList.splice(index, 1) // 移除需要展示的数组中的图片
       this.upLoadImagesFileArray.splice(index, 1) // 移除需要上传数组中的图片
     },
-    // 点击发布内容
+    // 点击发布的按钮
     async publishContent () {
       // 新建一个 FormData
       const formData = new FormData()
@@ -202,7 +205,26 @@ export default {
         blogText: this.blogText
       })
 
+      if (data.code === 201) {
+        this.$message({
+          message: data.msg,
+          type: 'danger',
+          iconClass: 'tyh-ui-success-01'
+        })
+
+        // 清空显示的图片和需要上传的数组
+        this.imagesList = []
+        this.upLoadImagesFileArray = []
+        this.blogText = ''
+
+        this.loadgetAllBlogList()
+      }
+    },
+    // 获取所有博客的内容
+    async loadgetAllBlogList () {
+      const { data } = await getAllBlogList()
       console.log(data)
+      this.blogList = data.data
     }
   }
 }

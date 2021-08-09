@@ -1,18 +1,15 @@
 <template>
   <div id="BlogList">
     <div class="userPhoto">
-      <img class="photo" src="./images/模拟头像.jpg" alt="" />
+      <img class="photo" :src="blogItem.avatar" alt="" />
     </div>
     <div class="blog">
-      <h4 class="nickname">这是昵称啊</h4>
-      <p class="time">2021-7-28 16:44</p>
-      <p class="blogText">
-        青春，是一个多么美好而又富有诗意的字眼!有人把她比作初
-        生的太阳;有人把她比作带露的鲜花;有人则把她比作世界上最
-        有魅力的东西——黄金!所以人们就说：青春年少是人生是黄金时代。
-      </p>
+      <h4 class="nickname">{{ blogItem.nickname }}</h4>
+      <p class="time">{{ blogItem.release_time }}</p>
+      <p class="blogText">{{ blogItem.text }}</p>
 
       <div class="blogImg">
+        <!-- <img class="blogImg-item" src="./images/测试1.png" alt="" />
         <img class="blogImg-item" src="./images/测试1.png" alt="" />
         <img class="blogImg-item" src="./images/测试1.png" alt="" />
         <img class="blogImg-item" src="./images/测试1.png" alt="" />
@@ -20,8 +17,15 @@
         <img class="blogImg-item" src="./images/测试1.png" alt="" />
         <img class="blogImg-item" src="./images/测试1.png" alt="" />
         <img class="blogImg-item" src="./images/测试1.png" alt="" />
-        <img class="blogImg-item" src="./images/测试1.png" alt="" />
-        <img class="blogImg-item" src="./images/测试1.png" alt="" />
+        <img class="blogImg-item" src="./images/测试1.png" alt="" /> -->
+
+        <img
+          class="blogImg-item"
+          v-for="(blogItemImg, index) in blogItem.image"
+          :key="index"
+          :src="blogItemImgURL(blogItemImg)"
+          alt="博客图片"
+        />
       </div>
 
       <!-- 点赞框 -->
@@ -43,7 +47,13 @@
 export default {
   name: 'BlogList',
   components: {},
-  props: {},
+  props: {
+    // 博客内容
+    blogItem: {
+      type: Object,
+      required: true
+    }
+  },
   data () {
     return {}
   },
@@ -51,7 +61,11 @@ export default {
   watch: {},
   created () { },
   mounted () { },
-  methods: {}
+  methods: {
+    blogItemImgURL (url) {
+      return `http://localhost/Virgo_Tyh_PHP/public/blogImg/${url}`
+    }
+  }
 }
 </script>
 

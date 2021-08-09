@@ -5,48 +5,9 @@
 import require from '@/utils/require'
 
 /**
- * 上传发布博客的图片文件
- * @param { FormData } data 图片文件
- * @param { string } userId 用户 id
- * @returns
- */
-// export const onReleaseBlogImg = (data, userId) => {
-//   return require({
-//     method: 'POST',
-//     url: 'index/Blog/releaseBlogImg',
-//     data,
-//     params: userId
-//   })
-// }
-export const onReleaseBlogImg = (data, userId) => {
-  return require({
-    method: 'POST',
-    url: 'index/Blog/releaseBlogImg',
-    data,
-    params: userId
-  })
-}
-
-/**
  * 上传用户发布的文字内容
  * @param { object } data 文字内容
- * @param { string } userId 用户id
- * @returns
- */
-export const onReleaseBlogText = (data, userId) => {
-  return require({
-    method: 'POST',
-    url: 'index/Blog/releaseBlogText',
-    data,
-    params: userId
-  })
-}
-// releaseBlog
-
-/**
- * 上传用户发布的文字内容
- * @param { object } data 文字内容
- * @param { string } userId 用户id
+ * @param { object } params 用户 id 和文字内容
  * @returns
  */
 export const onReleaseBlog = (data, params) => {
@@ -55,5 +16,16 @@ export const onReleaseBlog = (data, params) => {
     url: 'index/Blog/releaseBlog',
     data,
     params
+  })
+}
+
+/**
+ * 获取所有的博客内容
+ * @returns
+ */
+export const getAllBlogList = () => {
+  return require({
+    method: 'GET',
+    url: 'index/Blog/getAllBlogList'
   })
 }
