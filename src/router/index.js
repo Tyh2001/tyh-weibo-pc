@@ -23,22 +23,22 @@ const routes = [
         name: 'setting',
         component: () => import('@/views/setting'),
         meta: { requiresAuth: true }
-      },
-      // 登录
-      {
-        path: '/user/login',
-        name: 'login',
-        component: () => import('@/views/login'),
-        meta: { requiresAuth: false }
-      },
-      // 注册
-      {
-        path: '/user/register',
-        name: 'register',
-        component: () => import('@/views/register'),
-        meta: { requiresAuth: false }
       }
     ]
+  },
+  // 登录
+  {
+    path: '/user/login',
+    name: 'login',
+    component: () => import('@/views/login'),
+    meta: { requiresAuth: false }
+  },
+  // 注册
+  {
+    path: '/user/register',
+    name: 'register',
+    component: () => import('@/views/register'),
+    meta: { requiresAuth: false }
   }
 ]
 
