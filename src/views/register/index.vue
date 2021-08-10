@@ -52,7 +52,7 @@
             <img
               class="captcha_img"
               :src="captchaImgURL"
-              alt=""
+              alt="验证码"
               @click="changeCaptchaImg"
             />
           </div>
