@@ -248,3 +248,75 @@
 | data   | object | 非必须   |        | 返回数据       |
 | ├─ url | string | 必须     |        | 更新后头像地址 |
 
+
+
+## 博客
+
+### 发布博客
+
+#### 基本信息
+
+**Path：** index/Blog/releaseBlog
+
+**Method：** POST
+
+**线上地址：** http://localhost/Virgo_Tyh_PHP/public/index.php/index/Blog/releaseBlog
+
+#### 返回HTTP状态码
+
+1. 201 发布成功
+
+#### 请求参数
+
+**Body**
+
+| 名称       | 类型     | 是否必须 | 默认值 | 备注         |
+| ---------- | -------- | -------- | ------ | ------------ |
+| blogImages | formdata | 非必须   |        | 博客图片内容 |
+
+**Query**
+
+| 名称     | 类型   | 是否必须 | 默认值 | 备注         |
+| -------- | ------ | -------- | ------ | ------------ |
+| blogText | string | 必须     |        | 博客文字内容 |
+| userId   | string | 必须     |        | 用户 id      |
+
+#### 返回数据
+
+| 名称 | 类型   | 是否必须 | 默认值 | 备注     |
+| ---- | ------ | -------- | ------ | -------- |
+| code | number | 必须     |        | 状态码   |
+| msg  | string | 必须     |        | 提示信息 |
+
+
+
+### 获取全部博客
+
+#### 基本信息
+
+**Path：** index/Blog/getAllBlogList
+
+**Method：** POST
+
+**线上地址：** http://localhost/Virgo_Tyh_PHP/public/index.php/index/Blog/getAllBlogList
+
+#### 返回HTTP状态码
+
+1. 201 发布成功
+
+#### 请求参数
+
+
+
+#### 返回数据
+
+| 名称            | 类型   | 是否必须 | 默认值 | 备注     |
+| --------------- | ------ | -------- | ------ | -------- |
+| code            | number | 必须     |        | 状态码   |
+| msg             | string | 必须     |        | 提示信息 |
+| data            | object | 非必须   |        | 数据     |
+| ├─ nickname     | string | 必须     |        | 昵称     |
+| ├─ avatar       | string | 必须     |        | 头像     |
+| ├─ release_time | string | 必须     |        | 发布时间 |
+| ├─ text         | string | 必须     |        | 博客文字 |
+| ├─ image        | array  | 必须     |        | 博客图片 |
