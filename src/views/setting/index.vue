@@ -464,6 +464,11 @@ export default {
           this.userForm.avatar = res.data.data.url // 更新头像
           this.CropperImgDialog = false // 关于对话框
           Bus.$emit('updataPhoto', res.data.data.url) // 将新的头像地址传递给导航栏组件
+          this.$message({
+            message: '上传头像成功',
+            type: 'danger',
+            iconClass: 'tyh-ui-success-01'
+          })
         })
       })
     }
