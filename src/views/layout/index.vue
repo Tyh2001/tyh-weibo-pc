@@ -8,9 +8,9 @@
               <Tyh-icon icon="tyh-ui-home-01" color="#fff" />
               首页
             </Tyh-Menu-Item>
-            <Tyh-Menu-Item url="/">
+            <Tyh-Menu-Item url="/my">
               <Tyh-icon icon="tyh-ui-PaperPlane-01" color="#fff" />
-              内容
+              我的
             </Tyh-Menu-Item>
             <Tyh-Menu-Item url="/setting">
               <Tyh-icon icon="tyh-ui-setting-01" color="#fff" />

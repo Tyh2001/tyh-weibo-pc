@@ -23,6 +23,12 @@ const routes = [
         name: 'setting',
         component: () => import('@/views/setting'),
         meta: { requiresAuth: true }
+      },
+      {
+        path: '/my',
+        name: 'my',
+        component: () => import('@/views/my'),
+        meta: { requiresAuth: true }
       }
     ]
   },
