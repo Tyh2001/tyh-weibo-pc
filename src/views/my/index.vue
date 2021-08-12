@@ -1,5 +1,7 @@
 <template>
-  <div id="myIndex">我的页面</div>
+  <div id="myIndex">
+    <h1>我的页面</h1>
+  </div>
 </template>
 
 <script>

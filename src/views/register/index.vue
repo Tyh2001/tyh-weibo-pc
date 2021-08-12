@@ -176,7 +176,6 @@ export default {
             captchaCode: this.captchaCode // 验证码随机数
           }
         ))
-        console.log(data)
         this.registerBtnProhibit = false
 
         // 根据后端返回数据判断用户登录

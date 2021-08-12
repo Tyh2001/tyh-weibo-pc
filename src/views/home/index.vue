@@ -196,6 +196,14 @@ export default {
     },
     // 点击发布的按钮
     async publishContent () {
+      // 如果内容为空不能发布
+      if (this.blogText === '') {
+        return this.$message({
+          message: '内容为空不能发布',
+          type: 'warning',
+          iconClass: 'tyh-ui-warning-01'
+        })
+      }
       // 新建一个 FormData
       const formData = new FormData()
 
@@ -228,7 +236,6 @@ export default {
     // 获取所有博客的内容
     async loadgetAllBlogList () {
       const { data } = await getAllBlogList()
-      console.log(data)
       this.blogList = data.data
     }
   }
