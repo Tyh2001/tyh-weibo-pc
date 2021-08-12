@@ -3,7 +3,21 @@
     <div id="myBlogList">
       <!-- 左侧 -->
       <div id="content_left">
-        <div class="content_left_size"></div>
+        <div class="content_left_size">
+          <h2 class="title">个人主页</h2>
+
+          <ul class="list_content">
+            <li @click="$router.push('/')">
+              <i class="el-icon-position" />首页
+            </li>
+            <li><i class="el-icon-user" />我的关注</li>
+            <li><i class="el-icon-orange" />我的粉丝</li>
+            <li><i class="el-icon-star-off" />我的赞</li>
+            <li @click="$router.push('/setting')">
+              <i class="el-icon-setting" />设置
+            </li>
+          </ul>
+        </div>
       </div>
 
       <!-- 右侧 -->
@@ -94,6 +108,31 @@ export default {
         top: 60px;
         bottom: 0;
         background: #fff;
+        padding-top: 30px;
+        box-sizing: border-box;
+        user-select: none;
+        .title {
+          color: #333;
+          font-size: 26px;
+          font-weight: 500;
+          margin-left: 20px;
+        }
+        .list_content {
+          margin-top: 30px;
+          li {
+            line-height: 40px;
+            color: #333;
+            text-decoration: none;
+            list-style: none;
+            font-size: 18px;
+            user-select: none;
+            padding-left: 20px;
+            &:hover {
+              background: rgb(243, 243, 243);
+              cursor: pointer;
+            }
+          }
+        }
       }
     }
     #content_right {
