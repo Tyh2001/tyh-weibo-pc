@@ -27,7 +27,8 @@ export default {
 }
 html,
 body,
-#App {
+#App,
+#layoutIndex {
   width: 100%;
   height: 100%;
 }
