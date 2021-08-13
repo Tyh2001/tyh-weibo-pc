@@ -77,43 +77,45 @@ export default {
 </script>
 
 <style lang='less' scoped>
-#menu-box {
-  height: 60px;
-  .tyh-menu {
-    position: fixed;
-    top: 0px;
-    right: 0px;
-    left: 0px;
-    height: 60px;
-    z-index: 300;
-    display: flex;
-    justify-content: space-between;
-    .urlItem {
-      width: 1000px;
-      margin: auto;
+#layoutIndex {
+  #menu-box {
+    // height: 60px;
+    .tyh-menu {
+      position: fixed;
+      top: 0px;
+      right: 0px;
+      left: 0px;
+      height: 60px;
+      z-index: 300;
       display: flex;
       justify-content: space-between;
-      align-items: center;
-      padding: 0 20px;
-      box-sizing: border-box;
-      .userInfo {
+      .urlItem {
+        width: 1000px;
+        margin: auto;
         display: flex;
-        justify-content: center;
+        justify-content: space-between;
         align-items: center;
-        cursor: pointer;
-        .userInfo_photo {
-          width: 45px;
-          height: 45px;
-          border-radius: 50%;
-          margin-right: 7px;
-        }
-        .userInfo_nickname {
-          color: #fff;
-        }
-        .onLogin {
-          color: #fff;
+        padding: 0 20px;
+        box-sizing: border-box;
+        .userInfo {
+          display: flex;
+          justify-content: center;
+          align-items: center;
           cursor: pointer;
-          text-decoration: none;
+          .userInfo_photo {
+            width: 45px;
+            height: 45px;
+            border-radius: 50%;
+            margin-right: 7px;
+          }
+          .userInfo_nickname {
+            color: #fff;
+          }
+          .onLogin {
+            color: #fff;
+            cursor: pointer;
+            text-decoration: none;
+          }
         }
       }
     }

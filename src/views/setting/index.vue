@@ -478,10 +478,13 @@ export default {
 
 <style lang='less' scoped>
 #settingIndex {
-  padding-bottom: 60px;
+  padding: 60px 0 60px 0;
+  background: rgb(245, 245, 245);
+  // height: 100%;
   .tyh-card {
     width: 650px;
     margin: auto;
+    background: #fff;
     .title {
       font-weight: 500;
       margin-bottom: 30px;

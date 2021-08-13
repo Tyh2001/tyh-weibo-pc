@@ -94,8 +94,8 @@ export default {
 <style lang='less' scoped>
 #myIndex {
   background: rgb(245, 245, 245);
-  height: 100%;
   #myBlogList {
+    margin-top: 85px;
     width: 800px;
     margin: auto;
     display: flex;
@@ -144,6 +144,7 @@ export default {
         background: url("./images/img.png") no-repeat center;
         background-size: cover;
         border-radius: 5px;
+        margin-top: 80px;
         .user_photo_box {
           width: 100px;
           margin: auto;
