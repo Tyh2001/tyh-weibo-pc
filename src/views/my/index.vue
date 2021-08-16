@@ -93,6 +93,7 @@ export default {
 
 <style lang='less' scoped>
 #myIndex {
+  min-height: 100%;
   background: rgb(245, 245, 245);
   #myBlogList {
     margin-top: 85px;
