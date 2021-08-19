@@ -23,7 +23,7 @@
           </div>
 
           <div class="userInfo" v-else>
-            <img class="userInfo_photo" :src="user.avatar" alt="" />
+            <img class="userInfo_photo" :src="userPhotoAvatar" alt="" />
             <span class="userInfo_nickname">{{ user.nickname }}</span>
           </div>
         </div>
@@ -48,7 +48,10 @@ export default {
     }
   },
   computed: {
-    ...mapState(['userInfo'])
+    ...mapState(['userInfo']),
+    userPhotoAvatar () {
+      return `https://tianyuhao.icu/backstage/virgo_tyh_php/public/userPhoto/${this.user.avatar}`
+    }
   },
   watch: {},
   created () {

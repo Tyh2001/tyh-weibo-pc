@@ -4,8 +4,25 @@
       <img class="photo" :src="blogItem.avatar" alt="" />
     </div>
     <div class="blog">
-      <h4 class="nickname">{{ blogItem.nickname }}</h4>
-      <p class="time">{{ blogItem.release_time }}</p>
+      <div class="blog_info_change">
+        <div class="info_box">
+          <h4 class="nickname">{{ blogItem.nickname }}</h4>
+          <p class="time">{{ blogItem.release_time }}</p>
+        </div>
+
+        <el-dropdown trigger="click">
+          <span class="el-dropdown-link">
+            <i class="el-icon-arrow-down el-icon--right"></i>
+          </span>
+          <el-dropdown-menu slot="dropdown">
+            <el-dropdown-item v-if="followShow">关注</el-dropdown-item>
+            <el-dropdown-item v-if="followShow">取消关注</el-dropdown-item>
+            <el-dropdown-item v-if="changeDelete" @click.native="deleteBlog">
+              删除
+            </el-dropdown-item>
+          </el-dropdown-menu>
+        </el-dropdown>
+      </div>
       <p class="blogText">{{ blogItem.text }}</p>
 
       <div class="blogImg">
@@ -34,6 +51,8 @@
 </template>
 
 <script>
+import { mapState } from 'vuex'
+import { deleteMyBlogList } from '@/api/blog'
 export default {
   name: 'BlogList',
   components: {},
@@ -47,13 +66,38 @@ export default {
   data () {
     return {}
   },
-  computed: {},
+  computed: {
+    ...mapState(['userInfo']),
+    // 是否显示关注和取消关注的按钮展示
+    followShow () {
+      return this.blogItem.user_id !== this.userInfo.id
+    },
+    // 是否显示删除按钮
+    changeDelete () {
+      return this.blogItem.user_id === this.userInfo.id
+    }
+  },
   watch: {},
   created () { },
   mounted () { },
   methods: {
+    // 图片地址
     blogItemImgURL (url) {
       return `http://localhost/Virgo_Tyh_PHP/public/blogImg/${url}`
+    },
+    // 删除指定博客内容
+    deleteBlog () {
+      this.$confirm('此操作将永久删除该文件, 是否继续?', '提示', {
+        confirmButtonText: '确定',
+        cancelButtonText: '取消',
+        type: 'warning'
+      }).then(async () => {
+        const { data } = await deleteMyBlogList(this.blogItem.blogId)
+        console.log(data)
+
+        // 给父组件发送自定义事件
+        this.$emit('loadBlogList')
+      }).catch(() => { })
     }
   }
 }
@@ -78,15 +122,20 @@ export default {
   }
   .blog {
     width: 100%;
-    .nickname {
-      line-height: 30px;
-      color: #333;
-      font-size: 18px;
+    .blog_info_change {
+      display: flex;
+      justify-content: space-between;
+      .nickname {
+        line-height: 30px;
+        color: #333;
+        font-size: 18px;
+      }
+      .time {
+        font-size: 12px;
+        color: #5e5e5e;
+      }
     }
-    .time {
-      font-size: 12px;
-      color: #5e5e5e;
-    }
+
     .blogText {
       color: #252525;
       font-size: 15px;
@@ -120,6 +169,9 @@ export default {
         }
       }
     }
+  }
+  .el-dropdown-link {
+    cursor: pointer;
   }
 }
 </style>

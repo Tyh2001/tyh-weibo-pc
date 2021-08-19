@@ -25,7 +25,7 @@
         <!-- 头部 -->
         <div id="header">
           <div class="user_photo_box">
-            <img class="user_photo" :src="userForm.avatar" />
+            <img class="user_photo" :src="userPhotoAvatar" />
           </div>
           <h3 class="user_nickname">{{ userForm.nickname }}</h3>
           <p class="autograph">{{ userForm.autograph }}</p>
@@ -38,6 +38,7 @@
               v-for="(blogItem, index) in userBlogList"
               :key="index"
               :blogItem="blogItem"
+              @loadBlogList="loadgetUserBlogList"
             />
           </div>
 
@@ -68,7 +69,10 @@ export default {
     }
   },
   computed: {
-    ...mapState(['userInfo'])
+    ...mapState(['userInfo']),
+    userPhotoAvatar () {
+      return `https://tianyuhao.icu/backstage/virgo_tyh_php/public/userPhoto/${this.userForm.avatar}`
+    }
   },
   watch: {},
   created () {

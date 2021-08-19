@@ -67,13 +67,14 @@
             v-for="(blogItem, index) in blogList"
             :key="index"
             :blogItem="blogItem"
+            @loadBlogList="loadgetAllBlogList"
           />
         </div>
 
         <!-- 用户内容 -->
         <div v-if="userInfo" class="user_list">
           <div class="my_pohto">
-            <img :src="user.avatar" alt="用户头像" />
+            <img :src="userPhotoAvatar" alt="用户头像" />
           </div>
           <h4 class="nickname">{{ user.nickname }}</h4>
           <p class="autograph">{{ user.autograph }}</p>
@@ -118,7 +119,10 @@ export default {
     }
   },
   computed: {
-    ...mapState(['userInfo'])
+    ...mapState(['userInfo']),
+    userPhotoAvatar () {
+      return `https://tianyuhao.icu/backstage/virgo_tyh_php/public/userPhoto/${this.user.avatar}`
+    }
   },
   watch: {},
   created () {

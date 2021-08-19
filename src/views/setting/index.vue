@@ -7,7 +7,7 @@
       <div class="user_photo_box">
         <img
           class="user_photo"
-          :src="userForm.avatar"
+          :src="userPhotoAvatar"
           alt="用户头像"
           @click="upFilePhoto"
         />
@@ -326,7 +326,10 @@ export default {
     }
   },
   computed: {
-    ...mapState(['userInfo'])
+    ...mapState(['userInfo']),
+    userPhotoAvatar () {
+      return `https://tianyuhao.icu/backstage/virgo_tyh_php/public/userPhoto/${this.userForm.avatar}`
+    }
   },
   watch: {},
   created () {
