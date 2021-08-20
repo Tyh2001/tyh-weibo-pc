@@ -99,8 +99,7 @@ export default {
         cancelButtonText: '取消',
         type: 'warning'
       }).then(async () => {
-        const { data } = await deleteMyBlogList(this.blogItem.blogId)
-        console.log(data)
+        await deleteMyBlogList(this.blogItem.blogId)
 
         // 给父组件发送自定义事件
         this.$emit('loadBlogList')
