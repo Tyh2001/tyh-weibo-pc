@@ -5,10 +5,9 @@
         {{ changeUserInfoBloon ? "修改资料" : "账号信息设置" }}
       </h3>
       <div class="user_photo_box">
-        <img
+        <el-image
           class="user_photo"
           :src="userPhotoAvatar"
-          alt="用户头像"
           @click="upFilePhoto"
         />
         <input
@@ -227,12 +226,7 @@
       @closed="dialogClosed"
     >
       <div>
-        <img
-          class="cropper_img"
-          ref="cropper_img"
-          :src="UploadfileImgUrl"
-          alt=""
-        />
+        <img class="cropper_img" ref="cropper_img" :src="UploadfileImgUrl" />
       </div>
       <span slot="footer" class="dialog-footer">
         <el-button @click="CropperImgDialog = false">取 消</el-button>

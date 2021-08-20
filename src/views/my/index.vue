@@ -25,7 +25,7 @@
         <!-- 头部 -->
         <div id="header">
           <div class="user_photo_box">
-            <img class="user_photo" :src="userPhotoAvatar" />
+            <el-image class="user_photo" :src="userPhotoAvatar" />
           </div>
           <h3 class="user_nickname">{{ userForm.nickname }}</h3>
           <p class="autograph">{{ userForm.autograph }}</p>
