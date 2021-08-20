@@ -69,12 +69,24 @@
             :blogItem="blogItem"
             @loadBlogList="loadgetAllBlogList"
           />
+
+          <!-- 开始 loading 加载显示 -->
+          <el-table
+            v-if="fullscreenLoading"
+            id="blogListLoading"
+            v-loading="fullscreenLoading"
+          />
         </div>
 
         <!-- 用户内容 -->
         <div v-if="userInfo" class="user_list">
           <div class="my_pohto">
-            <img :src="userPhotoAvatar" alt="用户头像" />
+            <el-image
+              :src="userPhotoAvatar"
+              fit="cover"
+              v-loading="fullscreenLoading"
+              @click="$router.push('/my/' + userInfo.id)"
+            />
           </div>
           <h4 class="nickname">{{ user.nickname }}</h4>
           <p class="autograph">{{ user.autograph }}</p>
@@ -83,9 +95,9 @@
         <!-- 未登录 -->
         <div v-else class="user_list">
           <div class="my_pohto">
-            <img
+            <el-image
               src="./images/outLogin.jpg"
-              alt="未登录用户"
+              fit="cover"
               @click="goLogonPage"
             />
           </div>
@@ -111,6 +123,7 @@ export default {
   props: {},
   data () {
     return {
+      fullscreenLoading: false, // 页面加载状态展示
       blogList: [], // 博客内容
       imagesList: [], // 需要展示的的图片
       upLoadImagesFileArray: [], // 需要上传文件的数组
@@ -239,8 +252,10 @@ export default {
     },
     // 获取所有博客的内容
     async loadgetAllBlogList () {
+      this.fullscreenLoading = true
       const { data } = await getAllBlogList()
       this.blogList = data.data
+      this.fullscreenLoading = false
     }
   }
 }
@@ -248,16 +263,14 @@ export default {
 
 <style lang='less' scoped>
 #homeIndex {
-  background: url("./images/home.jpg") no-repeat center;
-  background-size: cover;
-  background-attachment: fixed;
+  min-height: 100%;
+  padding-top: 85px;
+  box-sizing: border-box;
+  background: rgb(245, 245, 245);
   #blog_box {
     width: 1000px;
     margin: auto;
-    padding-top: 300px;
     #content {
-      border-radius: 3px;
-      background: rgba(255, 255, 255, 0.2);
       width: 100%;
       box-sizing: border-box;
       padding: 15px;
@@ -270,6 +283,7 @@ export default {
           width: 100%;
           min-height: 140px;
           background: #fff;
+          box-shadow: 0 1px 6px 0 rgba(0, 0, 0, 0.1);
           padding: 22px 45px;
           box-sizing: border-box;
           border-radius: 5px;
@@ -344,20 +358,26 @@ export default {
             font-size: 15px;
           }
         }
+        #blogListLoading {
+          width: 585px;
+          height: 300px;
+        }
       }
       .user_list {
+        border-radius: 8px;
         width: 370px;
         padding: 0 20px;
         box-sizing: border-box;
         height: 300px;
         background: #fff;
+        box-shadow: 0 1px 6px 0 rgba(0, 0, 0, 0.1);
         margin-top: 60px;
         .my_pohto {
           width: 90px;
           margin: auto;
           margin-top: -60px;
           cursor: pointer;
-          img {
+          .el-image {
             width: 90px;
             height: 90px;
             border-radius: 50%;

@@ -483,7 +483,6 @@ export default {
 #settingIndex {
   padding: 60px 0 60px 0;
   background: rgb(245, 245, 245);
-  // height: 100%;
   .tyh-card {
     width: 650px;
     margin: auto;

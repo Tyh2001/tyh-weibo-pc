@@ -1,7 +1,12 @@
 <template>
   <div id="BlogList">
     <div class="userPhoto">
-      <img class="photo" :src="blogItem.avatar" alt="" />
+      <el-image
+        class="photo"
+        :src="userPhotoAvatar"
+        fit="cover"
+        @click="pushItemMy"
+      />
     </div>
     <div class="blog">
       <div class="blog_info_change">
@@ -15,8 +20,8 @@
             <i class="el-icon-arrow-down el-icon--right"></i>
           </span>
           <el-dropdown-menu slot="dropdown">
-            <el-dropdown-item v-if="followShow">关注</el-dropdown-item>
-            <el-dropdown-item v-if="followShow">取消关注</el-dropdown-item>
+            <el-dropdown-item v-if="followShow">关注 Ta</el-dropdown-item>
+            <el-dropdown-item v-if="followShow">取消关注 Ta</el-dropdown-item>
             <el-dropdown-item v-if="changeDelete" @click.native="deleteBlog">
               删除
             </el-dropdown-item>
@@ -26,12 +31,11 @@
       <p class="blogText">{{ blogItem.text }}</p>
 
       <div class="blogImg">
-        <img
+        <el-image
           class="blogImg-item"
           v-for="(blogItemImg, index) in blogItem.image"
           :key="index"
           :src="blogItemImgURL(blogItemImg)"
-          alt="博客图片"
         />
       </div>
 
@@ -75,6 +79,9 @@ export default {
     // 是否显示删除按钮
     changeDelete () {
       return this.blogItem.user_id === this.userInfo.id
+    },
+    userPhotoAvatar () {
+      return `https://tianyuhao.icu/backstage/virgo_tyh_php/public/userPhoto/${this.blogItem.avatar}`
     }
   },
   watch: {},
@@ -83,7 +90,7 @@ export default {
   methods: {
     // 图片地址
     blogItemImgURL (url) {
-      return `http://localhost/Virgo_Tyh_PHP/public/blogImg/${url}`
+      return `https://tianyuhao.icu/backstage/virgo_tyh_php/public/blogImg/${url}`
     },
     // 删除指定博客内容
     deleteBlog () {
@@ -98,6 +105,10 @@ export default {
         // 给父组件发送自定义事件
         this.$emit('loadBlogList')
       }).catch(() => { })
+    },
+    // 点击图片跳转对应的用户的页面
+    pushItemMy () {
+      this.$router.push(`/my/${this.blogItem.user_id}`)
     }
   }
 }
@@ -111,13 +122,15 @@ export default {
   width: 585px;
   padding: 40px 40px 10px 40px;
   box-sizing: border-box;
-  border-radius: 5px;
+  border-radius: 8px;
+  box-shadow: 0 1px 6px 0 rgba(0, 0, 0, 0.1);
   .userPhoto {
     width: 73px;
     .photo {
       width: 55px;
       height: 55px;
       border-radius: 50%;
+      cursor: pointer;
     }
   }
   .blog {

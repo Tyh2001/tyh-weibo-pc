@@ -83,12 +83,13 @@ export default {
   methods: {
     // 获取用户信息
     async loadgetUserInfo () {
-      const { data } = await getUserInfo(this.userInfo.id)
+      // const { data } = await getUserInfo(this.userInfo.id)
+      const { data } = await getUserInfo(this.$route.params.id)
       this.userForm = data.data
     },
     // 获取指定用户的博客内容
     async loadgetUserBlogList () {
-      const { data } = await getUserBlogList(this.userInfo.id)
+      const { data } = await getUserBlogList(this.$route.params.id)
       this.userBlogList = data.data
     }
   }

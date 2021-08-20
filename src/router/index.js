@@ -25,7 +25,7 @@ const routes = [
         meta: { requiresAuth: true }
       },
       {
-        path: '/my',
+        path: '/my/:id',
         name: 'my',
         component: () => import('@/views/my'),
         meta: { requiresAuth: true }
