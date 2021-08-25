@@ -27,8 +27,9 @@
         :prohibit="loginDialog"
         round
         @click="onSubmitLogin"
-        >登录</Tyh-button
       >
+        登录
+      </Tyh-button>
       <p class="changeRegister">
         <router-link to="/user/register">
           立即注册
@@ -36,9 +37,9 @@
         </router-link>
       </p>
 
-      <Tyh-button class="goHomeBtn" @click="$router.push('/')"
-        >返回首页</Tyh-button
-      >
+      <Tyh-button class="goHomeBtn" @click="$router.push('/')">
+        返回首页
+      </Tyh-button>
     </div>
   </div>
 </template>
