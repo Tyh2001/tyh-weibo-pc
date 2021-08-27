@@ -81,10 +81,15 @@
         <!-- 用户内容 -->
         <div v-if="userInfo" class="user_list">
           <div class="my_pohto">
-            <el-image
+            <!-- <el-image
               :src="userPhotoAvatar"
               fit="cover"
               v-loading="fullscreenLoading"
+              @click="$router.push('/my/' + userInfo.id)"
+            /> -->
+            <img
+              class="my_pohto_img"
+              :src="userPhotoAvatar"
               @click="$router.push('/my/' + userInfo.id)"
             />
           </div>
@@ -95,11 +100,12 @@
         <!-- 未登录 -->
         <div v-else class="user_list">
           <div class="my_pohto">
-            <el-image
+            <!-- <el-image
               src="./images/outLogin.jpg"
               fit="cover"
               @click="goLogonPage"
-            />
+            /> -->
+            <img src="./images/outLogin.jpg" @click="goLogonPage" />
           </div>
           <h4 class="nickname" @click="goLogonPage">未登录用户</h4>
           <p class="autograph" @click="goLogonPage">点击登录</p>
@@ -378,7 +384,7 @@ export default {
           margin: auto;
           margin-top: -60px;
           cursor: pointer;
-          .el-image {
+          .my_pohto_img {
             width: 90px;
             height: 90px;
             border-radius: 50%;

@@ -25,12 +25,15 @@
         <!-- 头部 -->
         <div id="header">
           <div class="user_photo_box">
-            <el-image class="user_photo" :src="userPhotoAvatar" />
+            <!-- <el-image class="user_photo" :src="userPhotoAvatar" /> -->
+            <img class="user_photo" :src="userPhotoAvatar" />
           </div>
           <h3 class="user_nickname">{{ userForm.nickname }}</h3>
           <p class="autograph">{{ userForm.autograph }}</p>
           <p class="follow">
-            <Tyh-button v-if="$route.params.id !== userInfo.id"  type="primary">关注 TA</Tyh-button>
+            <Tyh-button v-if="$route.params.id !== userInfo.id" type="primary">
+              关注 TA
+            </Tyh-button>
           </p>
         </div>
 
@@ -74,14 +77,24 @@ export default {
   computed: {
     ...mapState(['userInfo']),
     userPhotoAvatar () {
-      return `https://tianyuhao.icu/backstage/virgo_tyh_php/public/userPhoto/${this.userForm.avatar}`
+      // return `https://tianyuhao.icu/backstage/virgo_tyh_php/public/userPhoto/${this.userForm.avatar}`
+      return `http://localhost/Virgo_Tyh_PHP/public/userPhoto/${this.userForm.avatar}`
     },
     // 关注展示状态
     showFollowBtn () {
       return this.$route.params.id !== toString(this.userInfo.id)
     }
   },
-  watch: {},
+  watch: {
+    // 监视路由的变化，如果发生变化就重新加载内容
+    // 因为这里防止进入其他人的主页时候 再点击自己的博客不发生变化的问题
+    '$route' (to, from) {
+      if (this.$route.params.id) {
+        this.loadgetUserInfo()
+        this.loadgetUserBlogList()
+      }
+    }
+  },
   created () {
     this.loadgetUserInfo() // 获取用户资料
     this.loadgetUserBlogList() // 获取指定用户的博客内容
@@ -92,6 +105,7 @@ export default {
     async loadgetUserInfo () {
       // const { data } = await getUserInfo(this.userInfo.id)
       const { data } = await getUserInfo(this.$route.params.id)
+      // console.log(data)
       this.userForm = data.data
     },
     // 获取指定用户的博客内容

@@ -5,11 +5,12 @@
         {{ changeUserInfoBloon ? "修改资料" : "账号信息设置" }}
       </h3>
       <div class="user_photo_box">
-        <el-image
+        <!-- <el-image
           class="user_photo"
           :src="userPhotoAvatar"
           @click="upFilePhoto"
-        />
+        /> -->
+        <img class="user_photo" :src="userPhotoAvatar" @click="upFilePhoto" />
         <input
           ref="file_input"
           class="up_user_photo"

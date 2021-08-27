@@ -1,12 +1,13 @@
 <template>
   <div id="BlogList">
     <div class="userPhoto">
-      <el-image
+      <!-- <el-image
         class="photo"
         :src="userPhotoAvatar"
         fit="cover"
         @click="pushItemMy"
-      />
+      /> -->
+      <img class="photo" :src="userPhotoAvatar" @click="pushItemMy" />
     </div>
     <div class="blog">
       <div class="blog_info_change">

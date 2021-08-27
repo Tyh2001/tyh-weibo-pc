@@ -8,9 +8,12 @@
         <router-link to="/setting">
           <Tyh-icon icon="tyh-ui-setting-01" color="#333" size="20" />
         </router-link>
-        <router-link :to="/my/ + userInfo.id">
-          <el-image class="userInfo_photo" :src="userPhotoAvatar" fit="cover" />
-        </router-link>
+        <!-- <router-link :to="/my/ + userInfo.id">
+          <img class="userInfo_photo" :src="userPhotoAvatar" />
+        </router-link> -->
+        <span @click="toMyBlogList">
+          <img class="userInfo_photo" :src="userPhotoAvatar" />
+        </span>
       </div>
     </div>
 
@@ -58,7 +61,12 @@ export default {
     // 获取用户信息
     async loadgetUserInfo () {
       const { data } = await getUserInfo(this.userInfo.id)
+      // console.log(data)
       this.user = data.data
+    },
+    toMyBlogList () {
+      this.$router.push(`/my/${this.userInfo.id}`)
+      // location.reload()
     }
   }
 }
@@ -84,13 +92,15 @@ export default {
       display: flex;
       justify-content: space-between;
       align-items: center;
-      a {
+      a,
+      span {
         text-decoration: none;
         width: 60px;
         height: 45px;
         display: flex;
         justify-content: center;
         align-items: center;
+        cursor: pointer;
         &:hover {
           background: #eee;
         }
