@@ -45,13 +45,13 @@
             <p class="onfans">
               粉丝：
               <el-tag size="mini" type="danger">
-                {{ myFans }}
+                {{ userForm.fans_list }}
               </el-tag>
             </p>
             <p class="onFollow">
               关注：
               <el-tag size="mini" type="danger">
-                {{ myFollows }}
+                {{ userForm.follow_list }}
               </el-tag>
             </p>
           </div>
@@ -107,8 +107,8 @@ import { getUserInfo } from '@/api/user'
 import { getUserBlogList } from '@/api/blog'
 import { mapState } from 'vuex'
 import BlogList from '@/components/BlogList'
-// 关注用户 - 获取我的关注列表 - 获取我的粉丝列表
-import { onFollowUser, getFollowUserList, getFansUserList } from '@/api/follow'
+// 关注用户 - 获取我的关注列表 - 获取我的粉丝列表 - 取消关注用户
+import { onFollowUser, getFollowUserList, getFansUserList, deleteFollowUser } from '@/api/follow'
 export default {
   name: 'myIndex',
   components: {
@@ -117,8 +117,6 @@ export default {
   props: {},
   data () {
     return {
-      myFollows: 0, // 我的关注数量
-      myFans: 0, // 我的粉丝数量
       onFollowChange: false, // 是否关注
       userBlogList: [], // 用户发布的内容
       userForm: {} // 个人信息
@@ -183,35 +181,47 @@ export default {
       ))
       console.log(data)
       this.loadgetFollowUserList()
+      this.loadgetUserInfo()
+      this.onFollowChange = true
+    },
+    // 取消关注用户
+    async deleteFollowTa () {
+      const { data } = await deleteFollowUser(this.$qs.stringify(
+        {
+          user_id: this.userInfo.id,
+          follower_id: this.$route.params.id
+        }
+      ))
+      this.onFollowChange = false
+      console.log(data)
+      this.loadgetFollowUserList()
+      this.loadgetUserInfo()
     },
     // 获取我的关注列表
     async loadgetFollowUserList () {
       const { data } = await getFollowUserList(this.$qs.stringify(
         {
-          user_id: this.$route.params.id
+          user_id: this.userInfo.id
         }
       ))
-      console.log(data)
-      this.myFollows = data.length
+      console.log('我的关注列表', data)
       // 判断如果关注列表中的已关注的用户 id === 路由参数中的 id 那么就是已经关注的用户
       data.forEach(item => {
         if (item.follower_id.toString() === this.$route.params.id.toString()) {
+          console.log(item.follower_id.toString(), this.$route.params.id.toString())
           this.onFollowChange = true
         }
+        // this.onFollowChange = false
       })
     },
-    // 取消关注用户
-    deleteFollowTa () {
-      console.log('取消关注')
-    },
+    // 获取粉丝列表
     async loadgetFansUserList () {
-      const { data } = await getFansUserList(this.$qs.stringify(
+      await getFansUserList(this.$qs.stringify(
         {
-          user_id: this.$route.params.id
+          user_id: this.userInfo.id
         }
       ))
-      console.log(data)
-      this.myFans = data.length
+      // console.log('我的粉丝列表', data)
     }
   }
 }

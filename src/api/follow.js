@@ -30,10 +30,28 @@ export const getFollowUserList = data => {
   })
 }
 
+/**
+ * 获取我的粉丝列表
+ * @param { object } data 用户 id
+ * @returns 粉丝列表
+ */
 export const getFansUserList = data => {
   return require({
     method: 'POST',
     url: 'index/Follow/getFansUserList',
+    data
+  })
+}
+
+/**
+ *
+ * @param {} data
+ * @returns
+ */
+export const deleteFollowUser = data => {
+  return require({
+    method: 'POST',
+    url: 'index/Follow/deleteFollowUser',
     data
   })
 }
