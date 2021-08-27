@@ -16,3 +16,24 @@ export const onFollowUser = data => {
     data
   })
 }
+
+/**
+ * 获取我的关注列表
+ * @param { object } data 用户 id
+ * @returns 关注列表
+ */
+export const getFollowUserList = data => {
+  return require({
+    method: 'POST',
+    url: 'index/Follow/getFollowUserList',
+    data
+  })
+}
+
+export const getFansUserList = data => {
+  return require({
+    method: 'POST',
+    url: 'index/Follow/getFansUserList',
+    data
+  })
+}

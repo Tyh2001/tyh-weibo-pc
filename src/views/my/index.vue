@@ -25,19 +25,36 @@
         <!-- 头部 -->
         <div id="header">
           <div class="user_photo_box">
-            <!-- <el-image class="user_photo" :src="userPhotoAvatar" /> -->
             <img class="user_photo" :src="userPhotoAvatar" />
           </div>
           <h3 class="user_nickname">{{ userForm.nickname }}</h3>
           <p class="autograph">{{ userForm.autograph }}</p>
-          <p class="follow">
-            <Tyh-button v-if="showFollowBtn" type="primary">
-              关注 TA
+          <p class="followBtn">
+            <Tyh-button
+              v-if="showFollowBtn"
+              :type="onFollowChange ? 'danger' : 'primary'"
+              @click="onFollowChange ? deleteFollowTa() : changeFollowTa()"
+            >
+              {{ onFollowChange ? "取消关注 TA" : "关注 TA" }}
             </Tyh-button>
           </p>
         </div>
         <!-- 用户资料卡 -->
         <div id="header_info">
+          <div id="followList">
+            <p class="onfans">
+              粉丝：
+              <el-tag size="mini" type="danger">
+                {{ myFans }}
+              </el-tag>
+            </p>
+            <p class="onFollow">
+              关注：
+              <el-tag size="mini" type="danger">
+                {{ myFollows }}
+              </el-tag>
+            </p>
+          </div>
           <p v-if="userForm.birthday">
             生日：<el-tag size="mini">{{ userForm.birthday }}</el-tag>
           </p>
@@ -90,6 +107,8 @@ import { getUserInfo } from '@/api/user'
 import { getUserBlogList } from '@/api/blog'
 import { mapState } from 'vuex'
 import BlogList from '@/components/BlogList'
+// 关注用户 - 获取我的关注列表 - 获取我的粉丝列表
+import { onFollowUser, getFollowUserList, getFansUserList } from '@/api/follow'
 export default {
   name: 'myIndex',
   components: {
@@ -98,6 +117,9 @@ export default {
   props: {},
   data () {
     return {
+      myFollows: 0, // 我的关注数量
+      myFans: 0, // 我的粉丝数量
+      onFollowChange: false, // 是否关注
       userBlogList: [], // 用户发布的内容
       userForm: {} // 个人信息
     }
@@ -105,7 +127,6 @@ export default {
   computed: {
     ...mapState(['userInfo']),
     userPhotoAvatar () {
-      // return `https://tianyuhao.icu/backstage/virgo_tyh_php/public/userPhoto/${this.userForm.avatar}`
       return `http://localhost/Virgo_Tyh_PHP/public/userPhoto/${this.userForm.avatar}`
     },
     // 关注展示状态
@@ -126,6 +147,8 @@ export default {
   created () {
     this.loadgetUserInfo() // 获取用户资料
     this.loadgetUserBlogList() // 获取指定用户的博客内容
+    this.loadgetFollowUserList() // 获取我的关注列表
+    this.loadgetFansUserList() // 获取我的粉丝列表
   },
   mounted () { },
   methods: {
@@ -149,6 +172,46 @@ export default {
       const H = date.getHours() < 10 ? '0' + date.getHours() : date.getHours()
       const dateTime = `${Y}年${M}月${D}日${H}时`
       return dateTime
+    },
+    // 点击关注按钮
+    async changeFollowTa () {
+      const { data } = await onFollowUser(this.$qs.stringify(
+        {
+          user_id: this.userInfo.id,
+          follower_id: this.$route.params.id
+        }
+      ))
+      console.log(data)
+      this.loadgetFollowUserList()
+    },
+    // 获取我的关注列表
+    async loadgetFollowUserList () {
+      const { data } = await getFollowUserList(this.$qs.stringify(
+        {
+          user_id: this.$route.params.id
+        }
+      ))
+      console.log(data)
+      this.myFollows = data.length
+      // 判断如果关注列表中的已关注的用户 id === 路由参数中的 id 那么就是已经关注的用户
+      data.forEach(item => {
+        if (item.follower_id.toString() === this.$route.params.id.toString()) {
+          this.onFollowChange = true
+        }
+      })
+    },
+    // 取消关注用户
+    deleteFollowTa () {
+      console.log('取消关注')
+    },
+    async loadgetFansUserList () {
+      const { data } = await getFansUserList(this.$qs.stringify(
+        {
+          user_id: this.$route.params.id
+        }
+      ))
+      console.log(data)
+      this.myFans = data.length
     }
   }
 }
@@ -234,7 +297,7 @@ export default {
           margin-top: 10px;
         }
         // 关注
-        .follow {
+        .followBtn {
           margin-top: 10px;
           text-align: center;
           .tyh-button {
@@ -251,6 +314,19 @@ export default {
           color: #515a6e;
           font-size: 14px;
           line-height: 30px;
+        }
+        // 关注和粉丝列表
+        #followList {
+          display: flex;
+          .onfans,
+          .onFollow {
+            color: #333;
+            font-size: 14px;
+            cursor: pointer;
+          }
+          .onFollow {
+            margin-left: 40px;
+          }
         }
       }
       #content {

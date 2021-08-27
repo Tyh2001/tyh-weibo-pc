@@ -8,9 +8,6 @@
         <router-link to="/setting">
           <Tyh-icon icon="tyh-ui-setting-01" color="#333" size="20" />
         </router-link>
-        <!-- <router-link :to="/my/ + userInfo.id">
-          <img class="userInfo_photo" :src="userPhotoAvatar" />
-        </router-link> -->
         <span @click="toMyBlogList">
           <img class="userInfo_photo" :src="userPhotoAvatar" />
         </span>
@@ -38,7 +35,10 @@ export default {
     ...mapState(['userInfo']),
     userPhotoAvatar () {
       // return `https://tianyuhao.icu/backstage/virgo_tyh_php/public/userPhoto/${this.user.avatar}`
-      return `http://localhost/Virgo_Tyh_PHP/public/userPhoto/${this.user.avatar}`
+      if (this.user.avatar && this.userInfo) {
+        return `http://localhost/Virgo_Tyh_PHP/public/userPhoto/${this.user.avatar}`
+      }
+      return 'http://localhost/Virgo_Tyh_PHP/public/userPhoto/notLogin.jpg'
     }
   },
   watch: {},

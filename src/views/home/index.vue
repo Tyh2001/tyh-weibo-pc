@@ -57,9 +57,9 @@
                   @change="upImageFileInputChange($event)"
                 />
               </div>
-              <Tyh-button type="warning" round @click="publishContent"
-                >发布</Tyh-button
-              >
+              <Tyh-button type="warning" round @click="publishContent">
+                发布
+              </Tyh-button>
             </div>
           </div>
 
@@ -81,12 +81,6 @@
         <!-- 用户内容 -->
         <div v-if="userInfo" class="user_list">
           <div class="my_pohto">
-            <!-- <el-image
-              :src="userPhotoAvatar"
-              fit="cover"
-              v-loading="fullscreenLoading"
-              @click="$router.push('/my/' + userInfo.id)"
-            /> -->
             <img
               class="my_pohto_img"
               :src="userPhotoAvatar"
@@ -100,12 +94,11 @@
         <!-- 未登录 -->
         <div v-else class="user_list">
           <div class="my_pohto">
-            <!-- <el-image
+            <img
+              class="my_pohto_img"
               src="./images/outLogin.jpg"
-              fit="cover"
               @click="goLogonPage"
-            /> -->
-            <img src="./images/outLogin.jpg" @click="goLogonPage" />
+            />
           </div>
           <h4 class="nickname" @click="goLogonPage">未登录用户</h4>
           <p class="autograph" @click="goLogonPage">点击登录</p>

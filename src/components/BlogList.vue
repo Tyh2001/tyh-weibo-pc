@@ -1,12 +1,6 @@
 <template>
   <div id="BlogList">
     <div class="userPhoto">
-      <!-- <el-image
-        class="photo"
-        :src="userPhotoAvatar"
-        fit="cover"
-        @click="pushItemMy"
-      /> -->
       <img class="photo" :src="userPhotoAvatar" @click="pushItemMy" />
     </div>
     <div class="blog">
@@ -16,7 +10,7 @@
           <p class="time">{{ blogItem.release_time }}</p>
         </div>
 
-        <el-dropdown trigger="click">
+        <el-dropdown v-if="userInfo" trigger="click">
           <span class="el-dropdown-link">
             <i class="el-icon-arrow-down el-icon--right"></i>
           </span>
