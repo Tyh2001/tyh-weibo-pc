@@ -31,12 +31,40 @@
           <h3 class="user_nickname">{{ userForm.nickname }}</h3>
           <p class="autograph">{{ userForm.autograph }}</p>
           <p class="follow">
-            <Tyh-button v-if="$route.params.id !== userInfo.id" type="primary">
+            <Tyh-button v-if="showFollowBtn" type="primary">
               关注 TA
             </Tyh-button>
           </p>
         </div>
+        <!-- 用户资料卡 -->
+        <div id="header_info">
+          <p v-if="userForm.birthday">
+            生日：<el-tag size="mini">{{ userForm.birthday }}</el-tag>
+          </p>
+          <p v-if="userForm.feeling">
+            感情状况：
+            <el-tag size="mini" type="success">
+              {{ userForm.feeling }}
+            </el-tag>
+          </p>
+          <p v-if="userForm.work">
+            工作：<el-tag size="mini" type="info">{{ userForm.work }}</el-tag>
+          </p>
+          <p v-if="userForm.mail">
+            邮箱：
+            <el-tag size="mini" type="warning">
+              {{ userForm.mail }}
+            </el-tag>
+          </p>
+          <p>
+            注册时间：
+            <el-tag size="mini" type="danger">
+              {{ toDates(parseInt(userForm.regis_time)) }}
+            </el-tag>
+          </p>
+        </div>
 
+        <!-- 博客列表内容 -->
         <div id="content">
           <!-- 用户发布的内容 -->
           <div v-if="userBlogList.length">
@@ -82,7 +110,7 @@ export default {
     },
     // 关注展示状态
     showFollowBtn () {
-      return this.$route.params.id !== toString(this.userInfo.id)
+      return this.userInfo.id.toString() !== this.$route.params.id.toString()
     }
   },
   watch: {
@@ -103,7 +131,6 @@ export default {
   methods: {
     // 获取用户信息
     async loadgetUserInfo () {
-      // const { data } = await getUserInfo(this.userInfo.id)
       const { data } = await getUserInfo(this.$route.params.id)
       // console.log(data)
       this.userForm = data.data
@@ -112,6 +139,16 @@ export default {
     async loadgetUserBlogList () {
       const { data } = await getUserBlogList(this.$route.params.id)
       this.userBlogList = data.data
+    },
+    // 将时间戳转换为正常的时间对象格式
+    toDates (times) {
+      const date = new Date(times)
+      const Y = date.getFullYear()
+      const M = (date.getMonth() + 1 < 10 ? '0' + (date.getMonth() + 1) : date.getMonth() + 1)
+      const D = (date.getDate() < 10 ? '0' + date.getDate() : date.getDate())
+      const H = date.getHours() < 10 ? '0' + date.getHours() : date.getHours()
+      const dateTime = `${Y}年${M}月${D}日${H}时`
+      return dateTime
     }
   }
 }
@@ -166,18 +203,18 @@ export default {
       width: 585px;
       #header {
         width: 585px;
-        height: 240px;
+        min-height: 220px;
         padding-bottom: 12px;
-        margin-top: 30px;
         background: url("./images/img.png") no-repeat center;
         background-size: cover;
         border-radius: 5px;
         margin-top: 80px;
+        padding: 24px;
+        box-sizing: border-box;
         .user_photo_box {
           width: 100px;
           margin: auto;
           .user_photo {
-            margin-top: 40px;
             width: 90px;
             height: 90px;
             border-radius: 50%;
@@ -203,6 +240,17 @@ export default {
           .tyh-button {
             height: 30px;
           }
+        }
+      }
+      #header_info {
+        width: 585px;
+        background: #fff;
+        padding: 10px 40px;
+        box-sizing: border-box;
+        p {
+          color: #515a6e;
+          font-size: 14px;
+          line-height: 30px;
         }
       }
       #content {

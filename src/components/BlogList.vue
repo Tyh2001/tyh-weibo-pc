@@ -21,8 +21,12 @@
             <i class="el-icon-arrow-down el-icon--right"></i>
           </span>
           <el-dropdown-menu slot="dropdown">
-            <el-dropdown-item v-if="followShow">关注 Ta</el-dropdown-item>
-            <el-dropdown-item v-if="followShow">取消关注 Ta</el-dropdown-item>
+            <el-dropdown-item v-if="followShow" @click.native="onFollowTa">
+              关注 Ta
+            </el-dropdown-item>
+            <el-dropdown-item v-if="followShow" @click.native="deleteFollowTa">
+              取消关注 Ta
+            </el-dropdown-item>
             <el-dropdown-item v-if="changeDelete" @click.native="deleteBlog">
               删除
             </el-dropdown-item>
@@ -58,6 +62,7 @@
 <script>
 import { mapState } from 'vuex'
 import { deleteMyBlogList } from '@/api/blog'
+import { onFollowUser } from '@/api/follow'
 export default {
   name: 'BlogList',
   components: {},
@@ -111,6 +116,20 @@ export default {
     // 点击图片跳转对应的用户的页面
     pushItemMy () {
       this.$router.push(`/my/${this.blogItem.user_id}`)
+    },
+    // 关注用户
+    async onFollowTa () {
+      const { data } = await onFollowUser(this.$qs.stringify(
+        {
+          user_id: this.userInfo.id,
+          follower_id: this.blogItem.user_id
+        }
+      ))
+      console.log(data)
+    },
+    // 取消关注用户
+    deleteFollowTa () {
+      console.log('取消关注')
     }
   }
 }
