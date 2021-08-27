@@ -29,6 +29,9 @@
           </div>
           <h3 class="user_nickname">{{ userForm.nickname }}</h3>
           <p class="autograph">{{ userForm.autograph }}</p>
+          <p class="follow">
+            <Tyh-button v-if="$route.params.id !== userInfo.id"  type="primary">关注 TA</Tyh-button>
+          </p>
         </div>
 
         <div id="content">
@@ -72,6 +75,10 @@ export default {
     ...mapState(['userInfo']),
     userPhotoAvatar () {
       return `https://tianyuhao.icu/backstage/virgo_tyh_php/public/userPhoto/${this.userForm.avatar}`
+    },
+    // 关注展示状态
+    showFollowBtn () {
+      return this.$route.params.id !== toString(this.userInfo.id)
     }
   },
   watch: {},
@@ -146,6 +153,7 @@ export default {
       #header {
         width: 585px;
         height: 240px;
+        padding-bottom: 12px;
         margin-top: 30px;
         background: url("./images/img.png") no-repeat center;
         background-size: cover;
@@ -173,6 +181,14 @@ export default {
           color: #333;
           font-size: 15px;
           margin-top: 10px;
+        }
+        // 关注
+        .follow {
+          margin-top: 10px;
+          text-align: center;
+          .tyh-button {
+            height: 30px;
+          }
         }
       }
       #content {

@@ -81,7 +81,8 @@ export default {
       return this.blogItem.user_id === this.userInfo.id
     },
     userPhotoAvatar () {
-      return `https://tianyuhao.icu/backstage/virgo_tyh_php/public/userPhoto/${this.blogItem.avatar}`
+      // return `https://tianyuhao.icu/backstage/virgo_tyh_php/public/userPhoto/${this.blogItem.avatar}`
+      return `http://localhost/Virgo_Tyh_PHP/public/userPhoto/${this.blogItem.avatar}`
     }
   },
   watch: {},
@@ -90,7 +91,8 @@ export default {
   methods: {
     // 图片地址
     blogItemImgURL (url) {
-      return `https://tianyuhao.icu/backstage/virgo_tyh_php/public/blogImg/${url}`
+      // return `https://tianyuhao.icu/backstage/virgo_tyh_php/public/blogImg/${url}`
+      return `http://localhost/Virgo_Tyh_PHP/public/blogImg/${url}`
     },
     // 删除指定博客内容
     deleteBlog () {

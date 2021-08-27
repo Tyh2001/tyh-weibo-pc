@@ -34,7 +34,8 @@ export default {
   computed: {
     ...mapState(['userInfo']),
     userPhotoAvatar () {
-      return `https://tianyuhao.icu/backstage/virgo_tyh_php/public/userPhoto/${this.user.avatar}`
+      // return `https://tianyuhao.icu/backstage/virgo_tyh_php/public/userPhoto/${this.user.avatar}`
+      return `http://localhost/Virgo_Tyh_PHP/public/userPhoto/${this.user.avatar}`
     }
   },
   watch: {},

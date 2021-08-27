@@ -257,7 +257,23 @@ export default {
       changeUserInfoBtnProhibit: false, // 更新用户信息的按钮禁用状态
       changeUserPassBtnProhibit: false, // 更改密码的按钮禁用状态
       feelingList: ['单身', '已婚', '订婚', '暧昧中', '求交往', '暗恋中', '分居', '离异', '保密'], // 感情状况
-      workList: ['计算机/互联网/通信', '生产/工艺/制造', '金融/银行/投资/保险', '商业/服务业/个体经营', '文化/广告/传媒', '娱乐/艺术/表演', '律师/法务', '教育/培训', '公务员/行政/事业单位', '演员/歌手', '自由职业', '模特', '空姐', '学生', '其他'], // 工作列表
+      workList: [
+        '计算机/互联网/通信',
+        '生产/工艺/制造',
+        '金融/银行/投资/保险',
+        '商业/服务业/个体经营',
+        '文化/广告/传媒',
+        '娱乐/艺术/表演',
+        '律师/法务',
+        '教育/培训',
+        '公务员/行政/事业单位',
+        '演员/歌手',
+        '自由职业',
+        '模特',
+        '空姐',
+        '学生',
+        '其他'
+      ], // 工作列表
       userForm: {}, // 个人信息
       // 修改密码
       changePass: {
@@ -322,7 +338,8 @@ export default {
   computed: {
     ...mapState(['userInfo']),
     userPhotoAvatar () {
-      return `https://tianyuhao.icu/backstage/virgo_tyh_php/public/userPhoto/${this.userForm.avatar}`
+      // return `https://tianyuhao.icu/backstage/virgo_tyh_php/public/userPhoto/${this.userForm.avatar}`
+      return `http://localhost/Virgo_Tyh_PHP/public/userPhoto/${this.userForm.avatar}`
     }
   },
   watch: {},
