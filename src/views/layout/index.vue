@@ -57,10 +57,6 @@ export default {
     if (this.userInfo) {
       this.loadgetUserInfo()
     }
-    // 更新昵称
-    Bus.$on('updataNickname', (data) => {
-      this.user.nickname = data.nickname
-    })
     // 更新头像
     Bus.$on('updataPhoto', (data) => {
       this.user.avatar = data
@@ -74,9 +70,18 @@ export default {
       // console.log(data)
       this.user = data.data
     },
+    // 跳转到我的页面
     toMyBlogList () {
-      this.$router.push(`/my/${this.userInfo.id}`)
-      // location.reload()
+      if (this.userInfo) {
+        this.$router.push(`/my/${this.userInfo.id}`)
+        return
+      }
+      this.$router.push('/user/login')
+      this.$message({
+        message: '请登录后再试',
+        type: 'success',
+        iconClass: 'tyh-ui-danger-01'
+      })
     }
   }
 }

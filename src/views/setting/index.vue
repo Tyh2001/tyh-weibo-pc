@@ -382,9 +382,6 @@ export default {
         }
         const { data } = await changeUserInfo(this.$qs.stringify(this.userForm), this.userInfo.id)
 
-        // 提交给导航栏更新用户昵称
-        Bus.$emit('updataNickname', this.userForm)
-
         // 如果 code 不是 201 那么直接返回错误信息
         if (data.code !== 201) {
           this.$message({
