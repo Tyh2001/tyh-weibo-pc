@@ -8,7 +8,7 @@
             v-for="(blogItem, index) in blogList"
             :key="index"
             :blogItem="blogItem"
-            @loadBlogList="loadgetAllBlogList"
+            @loadBlogList="loadgetFollowAllBlogList"
           />
 
           <!-- 开始 loading 加载显示 -->
@@ -41,7 +41,7 @@ import BlogList from '@/components/BlogList'
 import { getUserInfo } from '@/api/user'
 import { mapState } from 'vuex'
 // 获取所有博客
-import { getAllBlogList } from '@/api/blog'
+import { getFollowAllBlogList } from '@/api/blog'
 import url from '@/utils/url'
 export default {
   name: 'followIndex',
@@ -68,7 +68,7 @@ export default {
   watch: {},
   created () {
     this.loadgetUserInfo() // 获取用户信息
-    this.loadgetAllBlogList() // 获取所有博客内容
+    this.loadgetFollowAllBlogList() // 获取关注人博客内容
   },
   mounted () { },
   methods: {
@@ -78,9 +78,9 @@ export default {
       this.user = data.data
     },
     // 获取所有博客的内容
-    async loadgetAllBlogList () {
+    async loadgetFollowAllBlogList () {
       this.fullscreenLoading = true
-      const { data } = await getAllBlogList()
+      const { data } = await getFollowAllBlogList(this.userInfo.id)
       this.blogList = data.data
       this.fullscreenLoading = false
     }

@@ -59,3 +59,18 @@ export const deleteMyBlogList = blogId => {
     }
   })
 }
+
+/**
+ * 获取我关注人的博客内容
+ * @param { string } userID
+ * @returns 我关注人的博客内容
+ */
+export const getFollowAllBlogList = userId => {
+  return require({
+    method: 'GET',
+    url: 'index/Blog/getFollowAllBlogList',
+    params: {
+      userId: userId
+    }
+  })
+}

@@ -295,6 +295,7 @@ export default {
       },
       // 更改密码的表单验证
       userPassForm: {
+        // 原始密码
         oldPass: [
           { required: true, message: '请输入原始密码', trigger: 'blur' },
           { min: 8, max: 20, message: '密码长度需在 8 到 20 个字符', trigger: 'blur' }

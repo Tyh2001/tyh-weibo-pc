@@ -58,7 +58,8 @@
 <script>
 import { mapState } from 'vuex'
 import { deleteMyBlogList } from '@/api/blog'
-import { onFollowUser } from '@/api/follow'
+// 关注用户 - 取消关注用户
+import { onFollowUser, deleteFollowUser } from '@/api/follow'
 import { toDates } from '@/utils/changeTime'
 import url from '@/utils/url'
 export default {
@@ -129,8 +130,14 @@ export default {
       console.log(data)
     },
     // 取消关注用户
-    deleteFollowTa () {
-      console.log('取消关注')
+    async deleteFollowTa () {
+      const { data } = await deleteFollowUser(this.$qs.stringify(
+        {
+          user_id: this.userInfo.id,
+          follower_id: this.blogItem.blogId
+        }
+      ))
+      console.log(data)
     },
     // 博客发布时间
     releaseTime () {
