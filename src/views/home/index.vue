@@ -114,6 +114,7 @@ import { getUserInfo } from '@/api/user'
 import { mapState } from 'vuex'
 // 发布博客 - 获取所有博客
 import { onReleaseBlog, getAllBlogList } from '@/api/blog'
+import url from '@/utils/url'
 export default {
   name: 'homeIndex',
   components: {
@@ -133,8 +134,7 @@ export default {
   computed: {
     ...mapState(['userInfo']),
     userPhotoAvatar () {
-      // return `https://tianyuhao.icu/backstage/virgo_tyh_php/public/userPhoto/${this.user.avatar}`
-      return `http://localhost/Virgo_Tyh_PHP/public/userPhoto/${this.user.avatar}`
+      return `${url}/userPhoto/${this.user.avatar}`
     }
   },
   watch: {},

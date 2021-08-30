@@ -2,12 +2,22 @@
   <div id="layoutIndex">
     <div id="menu-box">
       <div id="menu">
+        <!-- 首页 -->
         <router-link to="/">
           <Tyh-icon icon="tyh-ui-home-01" color="#333" size="20" />
         </router-link>
+
+        <!-- 我的关注 -->
+        <router-link to="/follow">
+          <Tyh-icon icon="tyh-ui-xingxing-01" color="#333" size="20" />
+        </router-link>
+
+        <!-- 设置 -->
         <router-link to="/setting">
           <Tyh-icon icon="tyh-ui-setting-01" color="#333" size="20" />
         </router-link>
+
+        <!-- 我的 -->
         <span @click="toMyBlogList">
           <img class="userInfo_photo" :src="userPhotoAvatar" />
         </span>
@@ -22,6 +32,7 @@
 import { mapState } from 'vuex'
 import { getUserInfo } from '@/api/user'
 import Bus from '@/utils/bus'
+import url from '@/utils/url'
 export default {
   name: 'layoutIndex',
   components: {},
@@ -34,11 +45,10 @@ export default {
   computed: {
     ...mapState(['userInfo']),
     userPhotoAvatar () {
-      // return `https://tianyuhao.icu/backstage/virgo_tyh_php/public/userPhoto/${this.user.avatar}`
       if (this.user.avatar && this.userInfo) {
-        return `http://localhost/Virgo_Tyh_PHP/public/userPhoto/${this.user.avatar}`
+        return `${url}/userPhoto/${this.user.avatar}`
       }
-      return 'http://localhost/Virgo_Tyh_PHP/public/userPhoto/notLogin.jpg'
+      return `${url}/userPhoto/notLogin.jpg`
     }
   },
   watch: {},

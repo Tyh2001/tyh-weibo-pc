@@ -5,11 +5,6 @@
         {{ changeUserInfoBloon ? "修改资料" : "账号信息设置" }}
       </h3>
       <div class="user_photo_box">
-        <!-- <el-image
-          class="user_photo"
-          :src="userPhotoAvatar"
-          @click="upFilePhoto"
-        /> -->
         <img class="user_photo" :src="userPhotoAvatar" @click="upFilePhoto" />
         <input
           ref="file_input"
@@ -244,6 +239,7 @@ import { mapState } from 'vuex'
 import 'cropperjs/dist/cropper.css'
 import Cropper from 'cropperjs'
 import Bus from '@/utils/bus'
+import url from '@/utils/url'
 export default {
   name: 'settingIndex',
   components: {},
@@ -339,8 +335,7 @@ export default {
   computed: {
     ...mapState(['userInfo']),
     userPhotoAvatar () {
-      // return `https://tianyuhao.icu/backstage/virgo_tyh_php/public/userPhoto/${this.userForm.avatar}`
-      return `http://localhost/Virgo_Tyh_PHP/public/userPhoto/${this.userForm.avatar}`
+      return `${url}/userPhoto/${this.userForm.avatar}`
     }
   },
   watch: {},

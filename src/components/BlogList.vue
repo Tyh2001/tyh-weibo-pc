@@ -7,9 +7,10 @@
       <div class="blog_info_change">
         <div class="info_box">
           <h4 class="nickname">{{ blogItem.nickname }}</h4>
-          <p class="time">{{ blogItem.release_time }}</p>
+          <p class="time">{{ releaseTime() }}</p>
         </div>
 
+        <!-- 下拉菜单 -->
         <el-dropdown v-if="userInfo" trigger="click">
           <span class="el-dropdown-link">
             <i class="el-icon-arrow-down el-icon--right"></i>
@@ -57,6 +58,8 @@
 import { mapState } from 'vuex'
 import { deleteMyBlogList } from '@/api/blog'
 import { onFollowUser } from '@/api/follow'
+import { toDates } from '@/utils/changeTime'
+import url from '@/utils/url'
 export default {
   name: 'BlogList',
   components: {},
@@ -81,8 +84,7 @@ export default {
       return this.blogItem.user_id === this.userInfo.id
     },
     userPhotoAvatar () {
-      // return `https://tianyuhao.icu/backstage/virgo_tyh_php/public/userPhoto/${this.blogItem.avatar}`
-      return `http://localhost/Virgo_Tyh_PHP/public/userPhoto/${this.blogItem.avatar}`
+      return `${url}/userPhoto/${this.blogItem.avatar}`
     }
   },
   watch: {},
@@ -90,9 +92,8 @@ export default {
   mounted () { },
   methods: {
     // 图片地址
-    blogItemImgURL (url) {
-      // return `https://tianyuhao.icu/backstage/virgo_tyh_php/public/blogImg/${url}`
-      return `http://localhost/Virgo_Tyh_PHP/public/blogImg/${url}`
+    blogItemImgURL (urlsuffix) {
+      return `${url}/blogImg/${urlsuffix}`
     },
     // 删除指定博客内容
     deleteBlog () {
@@ -124,6 +125,10 @@ export default {
     // 取消关注用户
     deleteFollowTa () {
       console.log('取消关注')
+    },
+    // 博客发布时间
+    releaseTime () {
+      return toDates(this.blogItem.release_time)
     }
   }
 }

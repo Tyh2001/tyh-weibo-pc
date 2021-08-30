@@ -76,7 +76,7 @@
           <p>
             注册时间：
             <el-tag size="mini" type="danger">
-              {{ toDates(parseInt(userForm.regis_time)) }}
+              {{ registerTime() }}
             </el-tag>
           </p>
         </div>
@@ -109,6 +109,8 @@ import { mapState } from 'vuex'
 import BlogList from '@/components/BlogList'
 // 关注用户 - 获取我的关注列表 - 获取我的粉丝列表 - 取消关注用户
 import { onFollowUser, getFollowUserList, getFansUserList, deleteFollowUser } from '@/api/follow'
+import { toDates } from '@/utils/changeTime'
+import url from '@/utils/url'
 export default {
   name: 'myIndex',
   components: {
@@ -125,7 +127,7 @@ export default {
   computed: {
     ...mapState(['userInfo']),
     userPhotoAvatar () {
-      return `http://localhost/Virgo_Tyh_PHP/public/userPhoto/${this.userForm.avatar}`
+      return `${url}/userPhoto/${this.userForm.avatar}`
     },
     // 关注展示状态
     showFollowBtn () {
@@ -162,14 +164,8 @@ export default {
       this.userBlogList = data.data
     },
     // 将时间戳转换为正常的时间对象格式
-    toDates (times) {
-      const date = new Date(times)
-      const Y = date.getFullYear()
-      const M = (date.getMonth() + 1 < 10 ? '0' + (date.getMonth() + 1) : date.getMonth() + 1)
-      const D = (date.getDate() < 10 ? '0' + date.getDate() : date.getDate())
-      const H = date.getHours() < 10 ? '0' + date.getHours() : date.getHours()
-      const dateTime = `${Y}年${M}月${D}日${H}时`
-      return dateTime
+    registerTime () {
+      return toDates(this.userForm.regis_time)
     },
     // 点击关注按钮
     async changeFollowTa () {
