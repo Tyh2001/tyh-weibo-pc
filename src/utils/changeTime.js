@@ -1,3 +1,8 @@
+/**
+ * 将时间戳转换为真正的时间格式
+ * @param { string } times 时间戳
+ * @returns xxxx年xx月xx日xx时
+ */
 export const toDates = times => {
   const date = new Date(parseInt(times))
   const Y = date.getFullYear()

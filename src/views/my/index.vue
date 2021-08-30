@@ -127,7 +127,10 @@ export default {
   computed: {
     ...mapState(['userInfo']),
     userPhotoAvatar () {
-      return `${url}/userPhoto/${this.userForm.avatar}`
+      if (this.userForm.avatar) {
+        return `${url}/userPhoto/${this.userForm.avatar}`
+      }
+      return ''
     },
     // 关注展示状态
     showFollowBtn () {

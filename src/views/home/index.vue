@@ -134,7 +134,10 @@ export default {
   computed: {
     ...mapState(['userInfo']),
     userPhotoAvatar () {
-      return `${url}/userPhoto/${this.user.avatar}`
+      if (this.user.avatar) {
+        return `${url}/userPhoto/${this.user.avatar}`
+      }
+      return ''
     }
   },
   watch: {},

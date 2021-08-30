@@ -35,6 +35,7 @@
           class="blogImg-item"
           v-for="(blogItemImg, index) in blogItem.image"
           :key="index"
+          :preview-src-list="showImagesList"
           :src="blogItemImgURL(blogItemImg)"
         />
       </div>
@@ -71,7 +72,9 @@ export default {
     }
   },
   data () {
-    return {}
+    return {
+      showImagesList: []
+    }
   },
   computed: {
     ...mapState(['userInfo']),
@@ -83,12 +86,15 @@ export default {
     changeDelete () {
       return this.blogItem.user_id === this.userInfo.id
     },
+    // 用户头像地址
     userPhotoAvatar () {
       return `${url}/userPhoto/${this.blogItem.avatar}`
     }
   },
   watch: {},
-  created () { },
+  created () {
+    this.changeShowImg()
+  },
   mounted () { },
   methods: {
     // 图片地址
@@ -129,6 +135,15 @@ export default {
     // 博客发布时间
     releaseTime () {
       return toDates(this.blogItem.release_time)
+    },
+    // 处理数组中所有图片地址的格式
+    changeShowImg () {
+      const arr = []
+      this.blogItem.image.forEach(item => {
+        const res = `${url}/blogImg/${item}`
+        arr.push(res)
+      })
+      this.showImagesList = arr
     }
   }
 }

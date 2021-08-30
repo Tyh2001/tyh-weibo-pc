@@ -158,8 +158,9 @@
         :type="changeUserInfoBloon ? 'success' : 'primary'"
         :prohibit="changeUserInfoBtnProhibit"
         @click="changeUserInfoBloon ? SaveData() : (changeUserInfoBloon = true)"
-        >{{ changeUserInfoBloon ? "保存资料" : "修改资料" }}</Tyh-button
       >
+        {{ changeUserInfoBloon ? "保存资料" : "修改资料" }}
+      </Tyh-button>
     </Tyh-card>
 
     <Tyh-card shadow="always" simple>
@@ -202,15 +203,16 @@
         type="success"
         :prohibit="changeUserPassBtnProhibit"
         @click="SaveDataNewPass"
-        >修改密码</Tyh-button
       >
+        修改密码
+      </Tyh-button>
     </Tyh-card>
 
     <Tyh-card shadow="always" simple>
       <h3 class="title">其他设置</h3>
-      <Tyh-button class="outLogin" type="danger" @click="outLogin"
-        >退出登录</Tyh-button
-      >
+      <Tyh-button class="outLogin" type="danger" @click="outLogin">
+        退出登录
+      </Tyh-button>
     </Tyh-card>
 
     <!-- 执行头像裁切的对话框 -->
@@ -335,7 +337,10 @@ export default {
   computed: {
     ...mapState(['userInfo']),
     userPhotoAvatar () {
-      return `${url}/userPhoto/${this.userForm.avatar}`
+      if (this.userForm.avatar) {
+        return `${url}/userPhoto/${this.userForm.avatar}`
+      }
+      return ''
     }
   },
   watch: {},

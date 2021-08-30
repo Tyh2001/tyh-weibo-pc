@@ -63,8 +63,9 @@
         round
         :prohibit="registerBtnProhibit"
         @click="onSubmitRegister"
-        >立即注册</Tyh-button
       >
+        立即注册
+      </Tyh-button>
       <p class="changeLogin">
         <router-link to="/user/login">
           返回登录
