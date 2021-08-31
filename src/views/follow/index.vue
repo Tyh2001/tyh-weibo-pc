@@ -103,6 +103,14 @@ export default {
       padding: 15px;
       display: flex;
       justify-content: space-between;
+      // 发布框
+      .blog_list {
+        width: 585px;
+        #blogListLoading {
+          width: 585px;
+          height: 300px;
+        }
+      }
       .user_list {
         border-radius: 8px;
         width: 370px;

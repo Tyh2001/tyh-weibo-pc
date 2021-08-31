@@ -33,6 +33,7 @@
             <Tyh-button
               v-if="showFollowBtn"
               :type="onFollowChange ? 'danger' : 'primary'"
+              :prohibit="followBtnprohibit"
               @click="onFollowChange ? deleteFollowTa() : changeFollowTa()"
             >
               {{ onFollowChange ? "取消关注 TA" : "关注 TA" }}
@@ -119,6 +120,7 @@ export default {
   props: {},
   data () {
     return {
+      followBtnprohibit: false, // 关注取关按钮禁用状态
       onFollowChange: false, // 是否关注
       userBlogList: [], // 用户发布的内容
       userForm: {} // 个人信息
@@ -172,29 +174,63 @@ export default {
     },
     // 点击关注按钮
     async changeFollowTa () {
+      this.followBtnprohibit = true
       const { data } = await onFollowUser(this.$qs.stringify(
         {
           user_id: this.userInfo.id,
           follower_id: this.$route.params.id
         }
       ))
-      console.log(data)
-      this.loadgetFollowUserList()
+      // 操作不成功时
+      if (data.code !== 201) {
+        this.$message({
+          message: data.msg,
+          type: 'warning',
+          iconClass: 'tyh-ui-warning-01'
+        })
+        this.followBtnprohibit = false
+        return
+      }
+      // 操作成功
+      this.$message({
+        message: data.msg,
+        type: 'danger',
+        iconClass: 'tyh-ui-success-01'
+      })
       this.loadgetUserInfo()
+      this.loadgetFollowUserList()
       this.onFollowChange = true
+      this.followBtnprohibit = false
     },
     // 取消关注用户
     async deleteFollowTa () {
+      this.followBtnprohibit = true
       const { data } = await deleteFollowUser(this.$qs.stringify(
         {
           user_id: this.userInfo.id,
           follower_id: this.$route.params.id
         }
       ))
-      this.onFollowChange = false
-      console.log(data)
-      this.loadgetFollowUserList()
+      // 操作不成功时
+      if (data.code !== 201) {
+        this.$message({
+          message: data.msg,
+          type: 'warning',
+          iconClass: 'tyh-ui-warning-01'
+        })
+        this.followBtnprohibit = false
+        return
+      }
+      // 操作成功
+      this.$message({
+        message: data.msg,
+        type: 'danger',
+        iconClass: 'tyh-ui-success-01'
+      })
       this.loadgetUserInfo()
+      this.loadgetFollowUserList()
+      this.onFollowChange = false
+      this.followBtnprohibit = false
     },
     // 获取我的关注列表
     async loadgetFollowUserList () {
@@ -203,11 +239,11 @@ export default {
           user_id: this.userInfo.id
         }
       ))
-      console.log('我的关注列表', data)
+      // console.log('我的关注列表', data)
       // 判断如果关注列表中的已关注的用户 id === 路由参数中的 id 那么就是已经关注的用户
       data.forEach(item => {
         if (item.follower_id.toString() === this.$route.params.id.toString()) {
-          console.log(item.follower_id.toString(), this.$route.params.id.toString())
+          // console.log(item.follower_id.toString(), this.$route.params.id.toString())
           this.onFollowChange = true
         }
         // this.onFollowChange = false

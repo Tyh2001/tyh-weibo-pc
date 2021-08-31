@@ -16,10 +16,21 @@
             <i class="el-icon-arrow-down el-icon--right"></i>
           </span>
           <el-dropdown-menu slot="dropdown">
-            <el-dropdown-item v-if="followShow" @click.native="onFollowTa">
+            <!-- 关注 -->
+            <el-dropdown-item
+              v-if="followShow"
+              :disabled="upFollowDisabled"
+              @click.native="onFollowTa"
+            >
               关注 Ta
             </el-dropdown-item>
-            <el-dropdown-item v-if="followShow" @click.native="deleteFollowTa">
+
+            <!-- 取消关注 -->
+            <el-dropdown-item
+              v-if="followShow"
+              :disabled="delFollowDisabled"
+              @click.native="deleteFollowTa"
+            >
               取消关注 Ta
             </el-dropdown-item>
             <el-dropdown-item v-if="changeDelete" @click.native="deleteBlog">
@@ -74,7 +85,9 @@ export default {
   },
   data () {
     return {
-      showImagesList: []
+      upFollowDisabled: false, // 关注按钮的禁用状态
+      delFollowDisabled: false, // 取消关注按钮的禁用状态
+      showImagesList: [] // 点击展示图片的数组
     }
   },
   computed: {
@@ -121,23 +134,58 @@ export default {
     },
     // 关注用户
     async onFollowTa () {
+      this.upFollowDisabled = true
       const { data } = await onFollowUser(this.$qs.stringify(
         {
           user_id: this.userInfo.id,
           follower_id: this.blogItem.user_id
         }
       ))
-      console.log(data)
+      // 操作不成功时
+      if (data.code !== 201) {
+        this.$message({
+          message: data.msg,
+          type: 'warning',
+          iconClass: 'tyh-ui-warning-01'
+        })
+        this.upFollowDisabled = false
+        return
+      }
+      // 操作成功
+      this.$message({
+        message: data.msg,
+        type: 'danger',
+        iconClass: 'tyh-ui-success-01'
+      })
+      this.upFollowDisabled = false
     },
     // 取消关注用户
     async deleteFollowTa () {
+      this.delFollowDisabled = true
       const { data } = await deleteFollowUser(this.$qs.stringify(
         {
           user_id: this.userInfo.id,
-          follower_id: this.blogItem.blogId
+          follower_id: this.blogItem.user_id
         }
       ))
-      console.log(data)
+      // 操作不成功时
+      if (data.code !== 201) {
+        this.$message({
+          message: data.msg,
+          type: 'warning',
+          iconClass: 'tyh-ui-warning-01'
+        })
+        this.delFollowDisabled = false
+        return
+      }
+      // 操作成功
+      this.$message({
+        message: data.msg,
+        type: 'danger',
+        iconClass: 'tyh-ui-success-01'
+      })
+      this.delFollowDisabled = false
+      this.$emit('loadBlogList')
     },
     // 博客发布时间
     releaseTime () {
