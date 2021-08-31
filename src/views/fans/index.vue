@@ -5,12 +5,16 @@
       <Tyh-crumbs-item>我的粉丝</Tyh-crumbs-item>
     </Tyh-crumbs>
 
-    <UserList
-      v-for="(myFansListItem, index) in myFansList"
-      :key="index"
-      :isFans="true"
-      :item="myFansListItem"
-    />
+    <template v-if="myFansList.length">
+      <UserList
+        v-for="(myFansListItem, index) in myFansList"
+        :key="index"
+        :isFans="true"
+        :item="myFansListItem"
+      />
+    </template>
+
+    <div v-else class="noFans">你还没有粉丝哦～</div>
   </div>
 </template>
 
@@ -53,6 +57,15 @@ export default {
   box-sizing: border-box;
   .tyh-crumbs {
     padding-bottom: 20px;
+  }
+  .noFans {
+    width: 100%;
+    height: 200px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    color: #333;
+    user-select: none;
   }
 }
 </style>

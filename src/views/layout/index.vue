@@ -3,22 +3,22 @@
     <div id="menu-box">
       <div id="menu">
         <!-- 首页 -->
-        <router-link to="/">
+        <router-link to="/" title="首页">
           <Tyh-icon icon="tyh-ui-home-01" color="#333" size="20" />
         </router-link>
 
         <!-- 我的关注 -->
-        <router-link to="/follow">
+        <router-link to="/follow" title="我的关注">
           <Tyh-icon icon="tyh-ui-xingxing-01" color="#333" size="20" />
         </router-link>
 
         <!-- 设置 -->
-        <router-link to="/setting">
+        <router-link to="/setting" title="设置">
           <Tyh-icon icon="tyh-ui-setting-01" color="#333" size="20" />
         </router-link>
 
         <!-- 我的 -->
-        <span @click="toMyBlogList">
+        <span @click="toMyBlogList" title="我的">
           <img class="userInfo_photo" :src="userPhotoAvatar" />
         </span>
       </div>

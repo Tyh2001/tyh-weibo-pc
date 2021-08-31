@@ -5,11 +5,15 @@
       <Tyh-crumbs-item>我的关注</Tyh-crumbs-item>
     </Tyh-crumbs>
 
-    <UserList
-      v-for="(myFollowUserItem, index) in myFollowUser"
-      :key="index"
-      :item="myFollowUserItem"
-    />
+    <template v-if="myFollowUser.length">
+      <UserList
+        v-for="(myFollowUserItem, index) in myFollowUser"
+        :key="index"
+        :item="myFollowUserItem"
+      />
+    </template>
+
+    <div v-else class="noFans">你还没有关注的人哦～</div>
   </div>
 </template>
 
@@ -53,6 +57,15 @@ export default {
   box-sizing: border-box;
   .tyh-crumbs {
     padding-bottom: 20px;
+  }
+  .noFans {
+    width: 100%;
+    height: 200px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    color: #333;
+    user-select: none;
   }
 }
 </style>

@@ -20,13 +20,13 @@
     <!-- 用户资料卡 -->
     <div id="header_info">
       <div id="followList">
-        <p class="onfans">
+        <p class="onfans" @click="$router.push('/fans/' + userInfo.id)">
           粉丝：
           <el-tag size="mini" type="danger">
             {{ userForm.fans_list }}
           </el-tag>
         </p>
-        <p class="onFollow">
+        <p class="onFollow" @click="$router.push('/myfollow/' + userInfo.id)">
           关注：
           <el-tag size="mini" type="danger">
             {{ userForm.follow_list }}
