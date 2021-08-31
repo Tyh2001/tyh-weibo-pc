@@ -206,13 +206,13 @@ export default {
 
 <style lang='less' scoped>
 #BlogList {
-  display: flex;
-  background: #fff;
-  margin-top: 15px;
   width: 585px;
-  padding: 40px 40px 10px 40px;
-  box-sizing: border-box;
+  display: flex;
+  margin-top: 15px;
   border-radius: 8px;
+  background: #fff;
+  box-sizing: border-box;
+  padding: 40px 40px 10px 40px;
   box-shadow: 0 1px 6px 0 rgba(0, 0, 0, 0.1);
   .userPhoto {
     width: 73px;
@@ -238,7 +238,6 @@ export default {
         color: #5e5e5e;
       }
     }
-
     .blogText {
       color: #252525;
       font-size: 15px;
