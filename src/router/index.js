@@ -24,11 +24,25 @@ const routes = [
         component: () => import('@/views/setting'),
         meta: { requiresAuth: true }
       },
+      // 我的页面先加载模板
       {
         path: '/my/:id',
-        name: 'my',
-        component: () => import('@/views/my'),
-        meta: { requiresAuth: true }
+        redirect: '@/views/my',
+        component: () => import('@/views/myLayout'),
+        meta: { requiresAuth: true },
+        children: [
+          // 我的页面
+          {
+            path: '',
+            component: () => import('@/views/my'),
+            meta: { requiresAuth: true }
+          },
+          {
+            path: '/myFollow/:id',
+            component: () => import('@/views/myFollow'),
+            meta: { requiresAuth: true }
+          }
+        ]
       },
       {
         path: '/follow',

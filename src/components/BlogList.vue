@@ -107,7 +107,7 @@ export default {
   },
   watch: {},
   created () {
-    this.changeShowImg()
+    this.changeShowImg() // 处理数组中所有图片地址的格式
   },
   mounted () { },
   methods: {
