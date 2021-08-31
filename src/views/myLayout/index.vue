@@ -21,7 +21,7 @@
             <li @click="goMyFollow"><i class="el-icon-user" />我的关注</li>
 
             <!-- 我的粉丝 -->
-            <li><i class="el-icon-orange" />我的粉丝</li>
+            <li @click="goMyFans"><i class="el-icon-orange" />我的粉丝</li>
 
             <!-- 我的赞 -->
             <li><i class="el-icon-star-off" />赞了我的</li>
@@ -61,6 +61,10 @@ export default {
     // 去我的关注页面
     goMyFollow () {
       this.$router.push(`/myfollow/${this.userInfo.id}`)
+    },
+    // 去我的粉丝页面
+    goMyFans () {
+      this.$router.push(`/fans/${this.userInfo.id}`)
     }
   }
 }

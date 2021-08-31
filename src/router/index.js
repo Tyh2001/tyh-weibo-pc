@@ -34,13 +34,20 @@ const routes = [
           // 我的页面
           {
             path: '',
-            component: () => import('@/views/my'),
-            meta: { requiresAuth: true }
+            name: 'my',
+            component: () => import('@/views/my')
           },
+          // 我的关注
           {
             path: '/myFollow/:id',
-            component: () => import('@/views/myFollow'),
-            meta: { requiresAuth: true }
+            name: 'myFollow',
+            component: () => import('@/views/myFollow')
+          },
+          // 我的粉丝
+          {
+            path: '/fans/:id',
+            name: 'fans',
+            component: () => import('@/views/fans')
           }
         ]
       },
