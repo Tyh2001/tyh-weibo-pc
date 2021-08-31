@@ -215,7 +215,7 @@ export default {
         }
       ))
       // 判断如果关注列表中的已关注的用户 id === 路由参数中的 id 那么就是已经关注的用户
-      data.forEach(item => {
+      data.data.forEach(item => {
         if (item.follower_id.toString() === this.$route.params.id.toString()) {
           // console.log(item.follower_id.toString(), this.$route.params.id.toString())
           this.onFollowChange = true

@@ -2,9 +2,11 @@
   <div id="UserList" @click="toUserBlog">
     <img
       class="userPhoto"
-      :src="userPhotoAvatar(myFollowUserItem.follower_avatar)"
+      :src="userPhotoAvatar(isFans ? item.user_avatar : item.follower_avatar)"
     />
-    <p class="nickName">{{ myFollowUserItem.follower_nickname }}</p>
+    <p class="nickName">
+      {{ isFans ? item.user_nickname : item.follower_nickname }}
+    </p>
   </div>
 </template>
 
@@ -14,9 +16,16 @@ export default {
   name: 'UserList',
   components: {},
   props: {
-    myFollowUserItem: {
-      require: true,
+    // 每一项用户信息
+    item: {
+      required: true,
       type: Object
+    },
+    // 是否为粉丝列表
+    isFans: {
+      type: Boolean,
+      required: false,
+      default: false
     }
   },
   data () {
@@ -33,7 +42,7 @@ export default {
     },
     // 点击去到关注用户人的主页
     toUserBlog () {
-      this.$router.push(`/my/${this.myFollowUserItem.follower_id}`)
+      this.$router.push(`/my/${this.item.follower_id}`)
     }
   }
 }

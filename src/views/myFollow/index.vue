@@ -8,7 +8,7 @@
     <UserList
       v-for="(myFollowUserItem, index) in myFollowUser"
       :key="index"
-      :myFollowUserItem="myFollowUserItem"
+      :item="myFollowUserItem"
     />
   </div>
 </template>
@@ -40,7 +40,7 @@ export default {
     // 获取我的关注列表
     async loadgetFollowUserList () {
       const { data } = await getFollowUserList(this.$qs.stringify({ user_id: this.userInfo.id }))
-      this.myFollowUser = data
+      this.myFollowUser = data.data
     }
   }
 }

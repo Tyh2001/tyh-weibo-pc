@@ -24,7 +24,7 @@
             <li @click="goMyFans"><i class="el-icon-orange" />我的粉丝</li>
 
             <!-- 我的赞 -->
-            <li><i class="el-icon-star-off" />赞了我的</li>
+            <!-- <li><i class="el-icon-star-off" />赞了我的</li> -->
 
             <!-- 设置 -->
             <li @click="$router.push('/setting')">
