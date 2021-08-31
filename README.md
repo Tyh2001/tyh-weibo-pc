@@ -478,7 +478,7 @@
 
 #### 返回HTTP状态码
 
-
+1. 201 OK
 
 #### 请求参数
 
@@ -489,6 +489,20 @@
 | user_id | string | 必须     |        | 用户 id |
 
 #### 返回数据
+
+| 名称                 | 类型   | 是否必须 | 默认值 | 备注            |
+| -------------------- | ------ | -------- | ------ | --------------- |
+| code                 | number | 必须     |        | 状态码          |
+| msg                  | string | 必须     |        | 提示信息        |
+| data                 | array  | 必须     |        | 数据            |
+| ├─ id                | number | 必须     |        | 序号            |
+| ├─ user_id           | number | 必须     |        | 用户  id        |
+| ├─ follower_id       | number | 必须     |        | 被关注用户的 id |
+| ├─ created_at        | string | 必须     |        | 关注时间        |
+| ├─ user_nickname     | string | 必须     |        | 用户昵称        |
+| ├─ user_avatar       | string | 必须     |        | 用户头像        |
+| ├─ follower_nickname | string | 必须     |        | 被关注用户昵称  |
+| ├─ follower_avatar   | string | 必须     |        | 被关注用户头像  |
 
 
 
@@ -504,7 +518,7 @@
 
 #### 返回HTTP状态码
 
-
+1. 201 OK
 
 #### 请求参数
 
@@ -515,4 +529,18 @@
 | user_id | string | 必须     |        | 用户 id |
 
 #### 返回数据
+
+| 名称                 | 类型   | 是否必须 | 默认值 | 备注            |
+| -------------------- | ------ | -------- | ------ | --------------- |
+| code                 | number | 必须     |        | 状态码          |
+| msg                  | string | 必须     |        | 提示信息        |
+| data                 | array  | 必须     |        | 数据            |
+| ├─ id                | number | 必须     |        | 序号            |
+| ├─ user_id           | number | 必须     |        | 用户  id        |
+| ├─ follower_id       | number | 必须     |        | 被关注用户的 id |
+| ├─ created_at        | string | 必须     |        | 关注时间        |
+| ├─ user_nickname     | string | 必须     |        | 用户昵称        |
+| ├─ user_avatar       | string | 必须     |        | 用户头像        |
+| ├─ follower_nickname | string | 必须     |        | 被关注用户昵称  |
+| ├─ follower_avatar   | string | 必须     |        | 被关注用户头像  |
 

@@ -20,12 +20,15 @@
     <!-- 用户资料卡 -->
     <div id="header_info">
       <div id="followList">
+        <!-- 粉丝 -->
         <p class="onfans" @click="$router.push('/fans/' + userInfo.id)">
           粉丝：
           <el-tag size="mini" type="danger">
             {{ userForm.fans_list }}
           </el-tag>
         </p>
+
+        <!-- 关注 -->
         <p class="onFollow" @click="$router.push('/myfollow/' + userInfo.id)">
           关注：
           <el-tag size="mini" type="danger">
@@ -33,24 +36,34 @@
           </el-tag>
         </p>
       </div>
+
+      <!-- 生日 -->
       <p v-if="userForm.birthday">
         生日：<el-tag size="mini">{{ userForm.birthday }}</el-tag>
       </p>
+
+      <!-- 感情状况 -->
       <p v-if="userForm.feeling">
         感情状况：
         <el-tag size="mini" type="success">
           {{ userForm.feeling }}
         </el-tag>
       </p>
+
+      <!-- 工作 -->
       <p v-if="userForm.work">
         工作：<el-tag size="mini" type="info">{{ userForm.work }}</el-tag>
       </p>
+
+      <!-- 邮箱 -->
       <p v-if="userForm.mail">
         邮箱：
         <el-tag size="mini" type="warning">
           {{ userForm.mail }}
         </el-tag>
       </p>
+
+      <!-- 注册时间 -->
       <p>
         注册时间：
         <el-tag size="mini" type="danger">
@@ -83,7 +96,7 @@ import { getUserInfo } from '@/api/user'
 import { getUserBlogList } from '@/api/blog'
 import { mapState } from 'vuex'
 // 关注用户 - 获取我的关注列表 - 获取我的粉丝列表 - 取消关注用户
-import { onFollowUser, getFollowUserList, getFansUserList, deleteFollowUser } from '@/api/follow'
+import { onFollowUser, getFollowUserList, deleteFollowUser } from '@/api/follow'
 import { toDates } from '@/utils/changeTime'
 import url from '@/utils/url'
 import BlogList from '@/components/BlogList'
@@ -127,7 +140,6 @@ export default {
   created () {
     this.loadgetUserInfo() // 获取用户资料
     this.loadgetUserBlogList() // 获取指定用户的博客内容
-    this.loadgetFansUserList() // 获取我的粉丝列表
     this.loadgetFollowUserList() // 获取我的关注列表
   },
   mounted () { },
@@ -202,36 +214,21 @@ export default {
         type: 'danger',
         iconClass: 'tyh-ui-success-01'
       })
-      this.loadgetUserInfo()
-      this.loadgetFollowUserList()
+      this.loadgetUserInfo() // 获取用户资料
+      this.loadgetFollowUserList() // 获取我的关注列表
       this.onFollowChange = false
       this.followBtnprohibit = false
     },
     // 获取我的关注列表
     async loadgetFollowUserList () {
-      const { data } = await getFollowUserList(this.$qs.stringify(
-        {
-          user_id: this.userInfo.id
-        }
-      ))
+      const { data } = await getFollowUserList(this.$qs.stringify({ user_id: this.userInfo.id }))
+
       // 判断如果关注列表中的已关注的用户 id === 路由参数中的 id 那么就是已经关注的用户
       data.data.forEach(item => {
         if (item.follower_id.toString() === this.$route.params.id.toString()) {
-          // console.log(item.follower_id.toString(), this.$route.params.id.toString())
           this.onFollowChange = true
         }
-        // this.onFollowChange = false
       })
-      console.log('我的关注列表', data)
-    },
-    // 获取粉丝列表
-    async loadgetFansUserList () {
-      const { data } = await getFansUserList(this.$qs.stringify(
-        {
-          user_id: this.userInfo.id
-        }
-      ))
-      console.log('我的粉丝列表', data)
     }
   }
 }
