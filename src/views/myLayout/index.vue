@@ -13,15 +13,22 @@
             </li>
 
             <!-- 我的主页 -->
-            <li @click="$router.push('/my/' + userInfo.id)">
+            <li
+              :style="changeHeigthColorShow('my')"
+              @click="$router.push('/my/' + userInfo.id)"
+            >
               <i class="el-icon-collection-tag" />我的主页
             </li>
 
             <!-- 我的关注 -->
-            <li @click="goMyFollow"><i class="el-icon-user" />我的关注</li>
+            <li :style="changeHeigthColorShow('myFollow')" @click="goMyFollow">
+              <i class="el-icon-user" />我的关注
+            </li>
 
             <!-- 我的粉丝 -->
-            <li @click="goMyFans"><i class="el-icon-orange" />我的粉丝</li>
+            <li :style="changeHeigthColorShow('fans')" @click="goMyFans">
+              <i class="el-icon-orange" />我的粉丝
+            </li>
 
             <!-- 我的赞 -->
             <!-- <li><i class="el-icon-star-off" />赞了我的</li> -->
@@ -65,6 +72,14 @@ export default {
     // 去我的粉丝页面
     goMyFans () {
       this.$router.push(`/fans/${this.userInfo.id}`)
+    },
+    // 高亮显示左侧菜单
+    changeHeigthColorShow (url) {
+      if (url === this.$route.name) {
+        return {
+          color: '#409eff'
+        }
+      }
     }
   }
 }
@@ -80,6 +95,9 @@ export default {
     margin: auto;
     display: flex;
     justify-content: space-between;
+    .aaaa {
+      color: red;
+    }
     #content_left {
       width: 200px;
       .content_left_size {

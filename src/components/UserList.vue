@@ -42,7 +42,7 @@ export default {
     },
     // 点击去到关注用户人的主页
     toUserBlog () {
-      this.$router.push(`/my/${this.item.follower_id}`)
+      this.$router.push(`/my/${this.isFans ? this.item.user_id : this.item.follower_id}`)
     }
   }
 }
