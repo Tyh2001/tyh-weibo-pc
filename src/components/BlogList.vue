@@ -53,11 +53,11 @@
 
       <!-- 点赞框 -->
       <div class="fabulous">
-        <div class="say">
+        <div class="say" @click="sayChange">
           <Tyh-icon size="19" icon="tyh-ui-pinglun-01" />
           评论
         </div>
-        <div class="good">
+        <div class="good" @click="goodChange">
           <Tyh-icon size="21" icon="tyh-ui-dianzan-01" />
           点赞
         </div>
@@ -199,6 +199,22 @@ export default {
         arr.push(res)
       })
       this.showImagesList = arr
+    },
+    // 评论点击
+    sayChange () {
+      this.$message({
+        message: '评论功能正在开发中...',
+        type: 'warning',
+        iconClass: 'tyh-ui-warning-01'
+      })
+    },
+    // 点击点赞
+    goodChange () {
+      this.$message({
+        message: '点赞功能正在开发中...',
+        type: 'warning',
+        iconClass: 'tyh-ui-warning-01'
+      })
     }
   }
 }
