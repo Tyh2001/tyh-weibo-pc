@@ -125,6 +125,7 @@
             v-model="userForm.birthday"
             type="date"
             placeholder="选择日期"
+            value-format="yyyy年 MM月 dd日"
             format="yyyy 年 MM 月 dd 日"
           />
           <p v-else class="form_item_text">{{ userForm.birthday }}</p>
