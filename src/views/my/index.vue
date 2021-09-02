@@ -21,7 +21,7 @@
     <div id="header_info">
       <div id="followList">
         <!-- 粉丝 -->
-        <p class="onfans" @click="$router.push('/fans/' + userInfo.id)">
+        <p class="onfans" @click="goFansWebList">
           粉丝：
           <el-tag size="mini" type="danger">
             {{ userForm.fans_list }}
@@ -29,7 +29,7 @@
         </p>
 
         <!-- 关注 -->
-        <p class="onFollow" @click="$router.push('/myfollow/' + userInfo.id)">
+        <p class="onFollow" @click="goFollowsWebList">
           关注：
           <el-tag size="mini" type="danger">
             {{ userForm.follow_list }}
@@ -144,6 +144,30 @@ export default {
   },
   mounted () { },
   methods: {
+    // 去粉丝页面
+    goFansWebList () {
+      if (this.userInfo.id.toString() === this.$route.params.id.toString()) {
+        this.$router.push('/fans/' + this.userInfo.id)
+        return
+      }
+      this.$message({
+        message: '不能查看他人粉丝列表',
+        type: 'warning',
+        iconClass: 'tyh-ui-warning-01'
+      })
+    },
+    // 去关注页面
+    goFollowsWebList () {
+      if (this.userInfo.id.toString() === this.$route.params.id.toString()) {
+        this.$router.push('/myfollow/' + this.userInfo.id)
+        return
+      }
+      this.$message({
+        message: '不能查看他人关注列表',
+        type: 'warning',
+        iconClass: 'tyh-ui-warning-01'
+      })
+    },
     // 将时间戳转换为正常的时间对象格式
     registerTime () {
       return toDates(this.userForm.regis_time)

@@ -42,6 +42,7 @@ export default {
   },
   mounted () { },
   methods: {
+    // 获取我的粉丝列表
     async loadgetFansUserList () {
       const { data } = await getFansUserList(this.$qs.stringify({ user_id: this.userInfo.id }))
       this.myFansList = data.data
