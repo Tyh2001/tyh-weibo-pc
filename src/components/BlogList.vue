@@ -258,6 +258,7 @@ export default {
       color: #252525;
       font-size: 15px;
       line-height: 24px;
+      word-break: break-all;
     }
     .blogImg {
       display: flex;

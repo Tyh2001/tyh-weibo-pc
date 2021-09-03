@@ -57,7 +57,12 @@
                   @change="upImageFileInputChange($event)"
                 />
               </div>
-              <Tyh-button type="warning" round @click="publishContent">
+              <Tyh-button
+                type="warning"
+                round
+                :prohibit="changeBtnProhibit"
+                @click="publishContent"
+              >
                 发布
               </Tyh-button>
             </div>
@@ -123,6 +128,7 @@ export default {
   props: {},
   data () {
     return {
+      changeBtnProhibit: false, // 发布按钮禁用状态
       fullscreenLoading: false, // 页面加载状态展示
       blogList: [], // 博客内容
       imagesList: [], // 需要展示的的图片
@@ -214,10 +220,19 @@ export default {
       this.imagesList.splice(index, 1) // 移除需要展示的数组中的图片
       this.upLoadImagesFileArray.splice(index, 1) // 移除需要上传数组中的图片
     },
+    // 获取所有博客的内容
+    async loadgetAllBlogList () {
+      this.fullscreenLoading = true
+      const { data } = await getAllBlogList()
+      this.blogList = data.data
+      this.fullscreenLoading = false
+    },
     // 点击发布的按钮
     async publishContent () {
+      this.changeBtnProhibit = true
       // 如果内容为空不能发布
       if (this.blogText === '') {
+        this.changeBtnProhibit = false
         return this.$message({
           message: '内容为空不能发布',
           type: 'warning',
@@ -250,15 +265,15 @@ export default {
         this.upLoadImagesFileArray = []
         this.blogText = ''
 
+        this.changeBtnProhibit = false
         this.loadgetAllBlogList()
       }
-    },
-    // 获取所有博客的内容
-    async loadgetAllBlogList () {
-      this.fullscreenLoading = true
-      const { data } = await getAllBlogList()
-      this.blogList = data.data
-      this.fullscreenLoading = false
+      // this.$message({
+      //   message: '发布内容过长！',
+      //   type: 'warning',
+      //   iconClass: 'tyh-ui-warning-01'
+      // })
+      this.changeBtnProhibit = false
     }
   }
 }
