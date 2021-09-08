@@ -6,8 +6,7 @@ import tyhUI from 'tyh-ui/lib'
 import ElementUI from 'element-ui'
 import 'element-ui/lib/theme-chalk/index.css'
 import Axios from 'axios'
-import qs from 'qs'
-// import './utils/dayjs.js'
+import qs from 'qs/lib/index'
 Vue.use(ElementUI)
 Vue.use(tyhUI)
 
