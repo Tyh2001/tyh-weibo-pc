@@ -168,39 +168,20 @@ export default {
     // 当上传文件被改变时
     upImageFileInputChange (e) {
       const filesArr = Array.from(e.target.files) // 将获取到的 files 对象转换为数组形式
-
-      // 将每一项添加到全局数组中
       for (let i = 0; i < filesArr.length; i++) {
         if (this.upLoadImagesFileArray.length < 9) {
-          this.upLoadImagesFileArray.push(filesArr[i])
+          this.upLoadImagesFileArray.push(filesArr[i]) // 将需要上传的文件添加到数组
+          this.imagesList.push(URL.createObjectURL(this.$refs.imgfile.files[i])) // 将需要展示的文件添加到数组
         } else {
+          this.$message({
+            message: '最多只能上传9张图片',
+            type: 'warning',
+            iconClass: 'tyh-ui-warning-01'
+          })
           break
         }
       }
-
-      // 获取到选择文件的长度（数量）
-      const fileLength = this.$refs.imgfile.files.length
-
-      // 如果需要上传的文件数量小于9才执行循环
-      if (this.imagesList.length < 9) {
-        for (let i = 0; i < fileLength; i++) {
-          // 进入循环之后还需要判定如果数组长度不小于9则继续添加 否则跳出循环体
-          if (this.imagesList.length < 9) {
-            this.imagesList.push(URL.createObjectURL(this.$refs.imgfile.files[i]))
-          } else {
-            break
-          }
-        }
-        // 清空文本框 防止上传相同内容不触发
-        this.$refs.imgfile.value = ''
-        return
-      }
-      // 长度到达上限之后提示框展示
-      this.$message({
-        message: '最多只能上传9张图片',
-        type: 'warning',
-        iconClass: 'tyh-ui-warning-01'
-      })
+      this.$refs.imgfile.value = ''
     },
     // 点击上传文件的方形框位置
     clickFileAddImg () {
